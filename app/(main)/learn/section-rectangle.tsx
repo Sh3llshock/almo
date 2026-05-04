@@ -12,6 +12,7 @@ type SectionRectangleProps = {
   unitId: number;
   sectionId?: string;
   completed: boolean;
+  showStart: boolean;
   x: number;
   y: number;
 };
@@ -21,6 +22,7 @@ export const SectionRectangle = ({
   unitId,
   sectionId,
   completed,
+  showStart,
   x,
   y,
 }: SectionRectangleProps) => {
@@ -56,21 +58,37 @@ export const SectionRectangle = ({
     transform: "translate(-50%, -50%)",
   } as const;
 
+  const startPulse = showStart && (
+    <div className="absolute -top-9 left-1/2 z-10 -translate-x-1/2 animate-bounce whitespace-nowrap rounded-xl border-2 bg-white px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-brand-500">
+      Start
+      <div
+        className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 transform border-x-8 border-t-8 border-x-transparent"
+        aria-hidden
+      />
+    </div>
+  );
+
   if (sectionId) {
     return (
       <Link
-        href={`/notes/${unitId}#${sectionId}`}
+        href={`/notes/${unitId}/${sectionId}`}
         className="absolute"
         style={wrapperStyle}
       >
-        <div className="relative h-full w-full">{inner}</div>
+        <div className="relative h-full w-full">
+          {startPulse}
+          {inner}
+        </div>
       </Link>
     );
   }
 
   return (
     <div className="absolute" style={wrapperStyle}>
-      <div className="relative h-full w-full">{inner}</div>
+      <div className="relative h-full w-full">
+        {startPulse}
+        {inner}
+      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ type NotesViewProps = {
   unitTitle: string;
   sectionId?: string;
   highlightTerm?: string;
+  sectionOnly?: boolean;
 };
 
 function highlight(text: string, term?: string): React.ReactNode {
@@ -102,16 +103,21 @@ function renderBlock(block: Block, highlightTerm?: string) {
   }
 }
 
-export const NotesView = ({ unitTitle, sectionId, highlightTerm }: NotesViewProps) => {
+export const NotesView = ({
+  unitTitle,
+  sectionId,
+  highlightTerm,
+  sectionOnly,
+}: NotesViewProps) => {
   const unitNotes = anatomyNotes.find((n) => n.unitTitle === unitTitle);
 
   useEffect(() => {
-    if (!sectionId) return;
+    if (!sectionId || sectionOnly) return;
     const el = document.getElementById(sectionId);
     if (el) {
       setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     }
-  }, [sectionId]);
+  }, [sectionId, sectionOnly]);
 
   if (!unitNotes) {
     return (
@@ -121,14 +127,23 @@ export const NotesView = ({ unitTitle, sectionId, highlightTerm }: NotesViewProp
     );
   }
 
+  const sectionsToRender =
+    sectionOnly && sectionId
+      ? unitNotes.sections.filter((s) => s.id === sectionId)
+      : unitNotes.sections;
+
   return (
     <div className="mx-auto max-w-2xl px-6 py-8">
-      <h1 className="mb-2 text-2xl font-extrabold text-brand-700">
-        {unitNotes.unitTitle}
-      </h1>
-      <p className="mb-8 leading-relaxed text-slate-600">{unitNotes.intro}</p>
+      {!sectionOnly && (
+        <>
+          <h1 className="mb-2 text-2xl font-extrabold text-brand-700">
+            {unitNotes.unitTitle}
+          </h1>
+          <p className="mb-8 leading-relaxed text-slate-600">{unitNotes.intro}</p>
+        </>
+      )}
 
-      {unitNotes.sections.map((section) => (
+      {sectionsToRender.map((section) => (
         <div key={section.id} id={section.id} className="mb-10 scroll-mt-20">
           <h2 className="mb-4 border-b-2 border-brand-100 pb-2 text-xl font-bold text-brand-600">
             {highlight(section.title, highlightTerm)}

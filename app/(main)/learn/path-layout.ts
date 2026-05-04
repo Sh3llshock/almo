@@ -10,6 +10,7 @@ export type PathNode =
       title: string;
       sectionId?: string;
       completed: boolean;
+      showStart: boolean;
       x: number;
       y: number;
     }
@@ -20,6 +21,7 @@ export type PathNode =
       title: string;
       isFinal: boolean;
       isCurrent: boolean;
+      showStart: boolean;
       locked: boolean;
       completed: boolean;
       x: number;
@@ -65,6 +67,7 @@ export const buildNodes = (
   let nodeIndex = 0;
 
   sectionLessons.forEach((lesson, sectionIdx) => {
+    const isActive = lesson.id === activeLessonId;
     nodes.push({
       kind: "rect",
       key: `rect-${lesson.id}`,
@@ -72,6 +75,7 @@ export const buildNodes = (
       title: lesson.title,
       sectionId: getSectionId(unitTitle, lesson.order),
       completed: lesson.completed,
+      showStart: isActive,
       x: xForIndex(sectionIdx, "rect"),
       y,
     });
@@ -84,8 +88,9 @@ export const buildNodes = (
       lessonId: lesson.id,
       title: lesson.title,
       isFinal: false,
-      isCurrent: lesson.id === activeLessonId,
-      locked: !lesson.completed && lesson.id !== activeLessonId,
+      isCurrent: isActive,
+      showStart: false,
+      locked: !lesson.completed && !isActive,
       completed: lesson.completed,
       x: xForIndex(sectionIdx, "circle"),
       y,
@@ -95,14 +100,16 @@ export const buildNodes = (
   });
 
   if (finalLesson) {
+    const isActive = finalLesson.id === activeLessonId;
     nodes.push({
       kind: "circle",
       key: `circle-${finalLesson.id}`,
       lessonId: finalLesson.id,
       title: finalLesson.title,
       isFinal: true,
-      isCurrent: finalLesson.id === activeLessonId,
-      locked: !finalLesson.completed && finalLesson.id !== activeLessonId,
+      isCurrent: isActive,
+      showStart: isActive,
+      locked: !finalLesson.completed && !isActive,
       completed: finalLesson.completed,
       x: PATH_WIDTH / 2,
       y,

@@ -26,3 +26,13 @@ export const getSectionId = (
 
 export const unitHasNotes = (unitTitle: string): boolean =>
   unitTitle in sectionsByUnit;
+
+export const getLessonOrderForSection = (
+  unitTitle: string,
+  sectionId: string
+): number | undefined => {
+  const sections = sectionsByUnit[unitTitle];
+  if (!sections) return undefined;
+  const idx = sections.indexOf(sectionId);
+  return idx === -1 ? undefined : idx + 1;
+};

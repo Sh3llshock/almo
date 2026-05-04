@@ -54,6 +54,7 @@ export const Unit = ({
                 unitId={id}
                 sectionId={node.sectionId}
                 completed={node.completed}
+                showStart={node.showStart}
                 x={node.x}
                 y={node.y}
               />
@@ -66,6 +67,7 @@ export const Unit = ({
               isFinal={node.isFinal}
               locked={node.locked}
               current={node.isCurrent}
+              showStart={node.showStart}
               completed={node.completed}
               percentage={activeLessonPercentage}
               x={node.x}

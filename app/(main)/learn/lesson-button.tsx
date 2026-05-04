@@ -16,6 +16,7 @@ type LessonButtonProps = {
   isFinal: boolean;
   locked?: boolean;
   current?: boolean;
+  showStart?: boolean;
   completed: boolean;
   percentage: number;
   x: number;
@@ -27,6 +28,7 @@ export const LessonButton = ({
   isFinal,
   locked,
   current,
+  showStart,
   completed,
   percentage,
   x,
@@ -34,6 +36,24 @@ export const LessonButton = ({
 }: LessonButtonProps) => {
   const Icon = completed ? Check : isFinal ? Crown : Star;
   const href = completed ? `/lesson/${id}` : "/lesson";
+
+  const buttonNode = (
+    <Button
+      size="rounded"
+      variant={locked ? "locked" : "secondary"}
+      className="h-[70px] w-[70px] border-b-8"
+    >
+      <Icon
+        className={cn(
+          "h-10 w-10",
+          locked
+            ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
+            : "fill-primary-foreground text-primary-foreground",
+          completed && "fill-none stroke-[4]"
+        )}
+      />
+    </Button>
+  );
 
   return (
     <Link
@@ -50,44 +70,27 @@ export const LessonButton = ({
       }}
     >
       <div className="relative h-full w-full">
+        {showStart && (
+          <div className="absolute -top-6 left-1/2 z-10 -translate-x-1/2 animate-bounce whitespace-nowrap rounded-xl border-2 bg-white px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-brand-500">
+            Start
+            <div
+              className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 transform border-x-8 border-t-8 border-x-transparent"
+              aria-hidden
+            />
+          </div>
+        )}
         {current ? (
-          <>
-            <div className="absolute -top-6 left-1/2 z-10 -translate-x-1/2 animate-bounce rounded-xl border-2 bg-white px-3 py-2.5 font-bold uppercase tracking-wide text-brand-500">
-              Start
-              <div
-                className="absolute -bottom-2 left-1/2 h-0 w-0 -translate-x-1/2 transform border-x-8 border-t-8 border-x-transparent"
-                aria-hidden
-              />
-            </div>
-            <CircularProgressbarWithChildren
-              value={Number.isNaN(percentage) ? 0 : percentage}
-              styles={{
-                path: { stroke: "#0061AA" },
-                trail: { stroke: "#e5e7eb" },
-              }}
-            >
-              <Button
-                size="rounded"
-                variant={locked ? "locked" : "secondary"}
-                className="h-[70px] w-[70px] border-b-8"
-              >
-                <Icon
-                  className={cn(
-                    "h-10 w-10",
-                    locked
-                      ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
-                      : "fill-primary-foreground text-primary-foreground",
-                    completed && "fill-none stroke-[4]"
-                  )}
-                />
-              </Button>
-            </CircularProgressbarWithChildren>
-          </>
+          <CircularProgressbarWithChildren
+            value={Number.isNaN(percentage) ? 0 : percentage}
+            styles={{
+              path: { stroke: "#0061AA" },
+              trail: { stroke: "#e5e7eb" },
+            }}
+          >
+            {buttonNode}
+          </CircularProgressbarWithChildren>
         ) : (
-          <Button
-            size="rounded"
-            variant={locked ? "locked" : "secondary"}
-            className="h-[70px] w-[70px] border-b-8"
+          <div
             style={{
               position: "absolute",
               top: "50%",
@@ -95,16 +98,8 @@ export const LessonButton = ({
               transform: "translate(-50%, -50%)",
             }}
           >
-            <Icon
-              className={cn(
-                "h-10 w-10",
-                locked
-                  ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
-                  : "fill-primary-foreground text-primary-foreground",
-                completed && "fill-none stroke-[4]"
-              )}
-            />
-          </Button>
+            {buttonNode}
+          </div>
         )}
       </div>
     </Link>
