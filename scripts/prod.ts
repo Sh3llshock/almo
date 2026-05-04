@@ -375,6 +375,7 @@ const seedSkeletalUnit = async (unitId: number) => {
       { unitId, title: "Upper Limb Bones", order: 3 },
       { unitId, title: "Lower Limb Bones", order: 4 },
       { unitId, title: "Thorax & Pelvis", order: 5 },
+      { unitId, title: "Unit Recap", order: 6 },
     ])
     .returning();
 
@@ -384,6 +385,7 @@ const seedSkeletalUnit = async (unitId: number) => {
     if (lesson.order === 3) await seedUpperLimbLesson(lesson.id);
     if (lesson.order === 4) await seedLowerLimbLesson(lesson.id);
     if (lesson.order === 5) await seedThoraxLesson(lesson.id);
+    if (lesson.order === 6) await seedSkeletalRecap(lesson.id);
   }
 };
 
@@ -396,6 +398,7 @@ const seedJointsUnit = async (unitId: number) => {
       { unitId, title: "Elbow & Wrist", order: 3 },
       { unitId, title: "Hip Joint", order: 4 },
       { unitId, title: "Knee & Ankle", order: 5 },
+      { unitId, title: "Unit Recap", order: 6 },
     ])
     .returning();
 
@@ -405,6 +408,7 @@ const seedJointsUnit = async (unitId: number) => {
     if (lesson.order === 3) await seedElbowLesson(lesson.id);
     if (lesson.order === 4) await seedHipLesson(lesson.id);
     if (lesson.order === 5) await seedKneeLesson(lesson.id);
+    if (lesson.order === 6) await seedJointsRecap(lesson.id);
   }
 };
 
@@ -1458,6 +1462,218 @@ const seedKneeLesson = async (lessonId: number) => {
       { correct: true, text: "Medial (tibialis posterior, tibialis anterior)" },
       { correct: false, text: "Lateral (peroneals)" },
       { correct: false, text: "Posterior (gastrocnemius)" },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db
+      .insert(schema.challengeOptions)
+      .values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Unit 1 Recap (Skeletal System) ───────────────────────────────────────────
+const seedSkeletalRecap = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      {
+        lessonId,
+        type: "SELECT",
+        question: "How many bones make up the adult human skull?",
+        order: 1,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "How many vertebrae are in the cervical region?",
+        order: 2,
+      },
+      {
+        lessonId,
+        type: "ASSIST",
+        question: "Which forearm bone is on the medial (little finger) side?",
+        order: 3,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "Which bone is the longest in the human body?",
+        order: 4,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "How many pairs of ribs does the human thoracic cage have?",
+        order: 5,
+      },
+      {
+        lessonId,
+        type: "ASSIST",
+        question: "What is the name of the fused bones that form the tailbone?",
+        order: 6,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "Which three bones fuse to form the adult os coxae (hip bone)?",
+        order: 7,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "Which cranial bone contains the foramen magnum?",
+        order: 8,
+      },
+    ])
+    .returning();
+
+  const opts: Record<number, { correct: boolean; text: string }[]> = {
+    1: [
+      { correct: true, text: "22" },
+      { correct: false, text: "14" },
+      { correct: false, text: "28" },
+    ],
+    2: [
+      { correct: true, text: "7" },
+      { correct: false, text: "5" },
+      { correct: false, text: "12" },
+    ],
+    3: [
+      { correct: true, text: "Ulna" },
+      { correct: false, text: "Radius" },
+      { correct: false, text: "Fibula" },
+    ],
+    4: [
+      { correct: true, text: "Femur (thigh bone)" },
+      { correct: false, text: "Tibia" },
+      { correct: false, text: "Humerus" },
+    ],
+    5: [
+      { correct: true, text: "12 pairs" },
+      { correct: false, text: "10 pairs" },
+      { correct: false, text: "14 pairs" },
+    ],
+    6: [
+      { correct: true, text: "Coccyx" },
+      { correct: false, text: "Sacrum" },
+      { correct: false, text: "Ilium" },
+    ],
+    7: [
+      { correct: true, text: "Ilium, ischium, and pubis" },
+      { correct: false, text: "Sacrum, ilium, and femur" },
+      { correct: false, text: "Ilium, femur, and pubis" },
+    ],
+    8: [
+      { correct: true, text: "Occipital bone" },
+      { correct: false, text: "Temporal bone" },
+      { correct: false, text: "Frontal bone" },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db
+      .insert(schema.challengeOptions)
+      .values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Unit 2 Recap (Joints & Movement) ─────────────────────────────────────────
+const seedJointsRecap = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      {
+        lessonId,
+        type: "SELECT",
+        question: "Which type of joint allows no movement (e.g., skull sutures)?",
+        order: 1,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "The glenohumeral joint is what type of synovial joint?",
+        order: 2,
+      },
+      {
+        lessonId,
+        type: "ASSIST",
+        question: "Which rotator cuff muscle initiates shoulder abduction (first 15°)?",
+        order: 3,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "The elbow joint (humeroulnar) is classified as which type?",
+        order: 4,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "The hip joint is classified as which type of synovial joint?",
+        order: 5,
+      },
+      {
+        lessonId,
+        type: "ASSIST",
+        question: "What is the socket of the hip joint called?",
+        order: 6,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "The ACL (anterior cruciate ligament) primarily prevents…",
+        order: 7,
+      },
+      {
+        lessonId,
+        type: "SELECT",
+        question: "Dorsiflexion of the ankle moves the foot in which direction?",
+        order: 8,
+      },
+    ])
+    .returning();
+
+  const opts: Record<number, { correct: boolean; text: string }[]> = {
+    1: [
+      { correct: true, text: "Synarthrosis (fibrous joint)" },
+      { correct: false, text: "Amphiarthrosis" },
+      { correct: false, text: "Diarthrosis" },
+    ],
+    2: [
+      { correct: true, text: "Ball-and-socket joint" },
+      { correct: false, text: "Hinge joint" },
+      { correct: false, text: "Saddle joint" },
+    ],
+    3: [
+      { correct: true, text: "Supraspinatus" },
+      { correct: false, text: "Deltoid" },
+      { correct: false, text: "Infraspinatus" },
+    ],
+    4: [
+      { correct: true, text: "Hinge joint" },
+      { correct: false, text: "Pivot joint" },
+      { correct: false, text: "Condyloid joint" },
+    ],
+    5: [
+      { correct: true, text: "Ball-and-socket joint" },
+      { correct: false, text: "Hinge joint" },
+      { correct: false, text: "Condyloid joint" },
+    ],
+    6: [
+      { correct: true, text: "Acetabulum" },
+      { correct: false, text: "Glenoid fossa" },
+      { correct: false, text: "Condyle" },
+    ],
+    7: [
+      { correct: true, text: "Anterior translation of the tibia on the femur" },
+      { correct: false, text: "Posterior translation of the tibia" },
+      { correct: false, text: "Lateral rotation of the knee" },
+    ],
+    8: [
+      { correct: true, text: "Toes point upward (foot toward shin)" },
+      { correct: false, text: "Toes point downward (foot away from shin)" },
+      { correct: false, text: "Foot turns inward" },
     ],
   };
 

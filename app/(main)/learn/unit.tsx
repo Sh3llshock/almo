@@ -1,6 +1,10 @@
 import { lessons, units } from "@/db/schema";
+import { getSectionId } from "@/lib/unit-sections";
 
 import { LessonButton } from "./lesson-button";
+import { buildNodes, PATH_WIDTH } from "./path-layout";
+import { PathSvg } from "./path-svg";
+import { SectionRectangle } from "./section-rectangle";
 import { UnitBanner } from "./unit-banner";
 
 type UnitProps = {
@@ -27,24 +31,45 @@ export const Unit = ({
   activeLesson,
   activeLessonPercentage,
 }: UnitProps) => {
+  const { nodes, height } = buildNodes(
+    lessons,
+    activeLesson?.id,
+    title,
+    getSectionId
+  );
+
   return (
     <>
       <UnitBanner title={title} description={description} unitId={id} />
 
-      <div className="relative flex flex-col items-center">
-        {lessons.map((lesson, i) => {
-          const isCurrent = lesson.id === activeLesson?.id;
-          const isLocked = !lesson.completed && !isCurrent;
+      <div className="relative mx-auto mt-8" style={{ width: PATH_WIDTH, height }}>
+        <PathSvg nodes={nodes} height={height} />
 
+        {nodes.map((node) => {
+          if (node.kind === "rect") {
+            return (
+              <SectionRectangle
+                key={node.key}
+                title={node.title}
+                unitId={id}
+                sectionId={node.sectionId}
+                completed={node.completed}
+                x={node.x}
+                y={node.y}
+              />
+            );
+          }
           return (
             <LessonButton
-              key={lesson.id}
-              id={lesson.id}
-              index={i}
-              totalCount={lessons.length - 1}
-              current={isCurrent}
-              locked={isLocked}
+              key={node.key}
+              id={node.lessonId}
+              isFinal={node.isFinal}
+              locked={node.locked}
+              current={node.isCurrent}
+              completed={node.completed}
               percentage={activeLessonPercentage}
+              x={node.x}
+              y={node.y}
             />
           );
         })}
