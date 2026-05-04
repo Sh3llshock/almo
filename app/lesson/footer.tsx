@@ -9,6 +9,7 @@ type FooterProps = {
   status: "correct" | "wrong" | "none" | "completed";
   disabled?: boolean;
   lessonId?: number;
+  correctAnswerText?: string;
 };
 
 export const Footer = ({
@@ -16,6 +17,7 @@ export const Footer = ({
   status,
   disabled,
   lessonId,
+  correctAnswerText,
 }: FooterProps) => {
   useKey("Enter", onCheck, {}, [onCheck]);
   const isMobile = useMedia("(max-width: 1024px)");
@@ -37,9 +39,16 @@ export const Footer = ({
         )}
 
         {status === "wrong" && (
-          <div className="flex items-center text-base font-bold text-rose-500 lg:text-2xl">
-            <XCircle className="mr-4 h-6 w-6 lg:h-10 lg:w-10" />
-            Try again.
+          <div className="flex items-center gap-x-4 text-base font-bold text-rose-500 lg:text-2xl">
+            <XCircle className="h-6 w-6 shrink-0 lg:h-10 lg:w-10" />
+            <div className="flex flex-col gap-y-0.5">
+              <span>Incorrect.</span>
+              {correctAnswerText && (
+                <span className="text-sm font-normal text-rose-400 lg:text-base">
+                  Correct answer: {correctAnswerText}
+                </span>
+              )}
+            </div>
           </div>
         )}
 
@@ -63,7 +72,7 @@ export const Footer = ({
         >
           {status === "none" && "Check"}
           {status === "correct" && "Next"}
-          {status === "wrong" && "Retry"}
+          {status === "wrong" && "Next"}
           {status === "completed" && "Continue"}
         </Button>
       </div>

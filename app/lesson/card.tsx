@@ -13,6 +13,7 @@ type CardProps = {
   audioSrc: string | null;
   shortcut: string;
   selected?: boolean;
+  isCorrect?: boolean;
   onClick: () => void;
   status?: "correct" | "wrong" | "none";
   disabled?: boolean;
@@ -25,6 +26,7 @@ export const Card = ({
   audioSrc,
   shortcut,
   selected,
+  isCorrect,
   onClick,
   status,
   disabled,
@@ -54,6 +56,10 @@ export const Card = ({
         selected &&
           status === "wrong" &&
           "border-rose-300 bg-rose-100 hover:bg-rose-100",
+        !selected &&
+          isCorrect &&
+          status === "wrong" &&
+          "border-brand-300 bg-brand-100 hover:bg-brand-100",
         disabled && "pointer-events-none hover:bg-white",
         type === "ASSIST" && "w-full lg:p-3"
       )}
@@ -77,7 +83,8 @@ export const Card = ({
             "text-sm text-neutral-600 lg:text-base",
             selected && "text-sky-500",
             selected && status === "correct" && "text-brand-500",
-            selected && status === "wrong" && "text-rose-500"
+            selected && status === "wrong" && "text-rose-500",
+            !selected && isCorrect && status === "wrong" && "text-brand-500"
           )}
         >
           {text}
@@ -90,7 +97,8 @@ export const Card = ({
             selected &&
               status === "correct" &&
               "border-brand-500 text-brand-500",
-            selected && status === "wrong" && "border-rose-500 text-rose-500"
+            selected && status === "wrong" && "border-rose-500 text-rose-500",
+            !selected && isCorrect && status === "wrong" && "border-brand-500 text-brand-500"
           )}
         >
           {shortcut}

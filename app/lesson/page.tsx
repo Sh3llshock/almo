@@ -29,6 +29,8 @@ const LessonPage = async () => {
       initialHearts={userProgress.hearts}
       initialPercentage={initialPercentage}
       userSubscription={userSubscription}
+      unitId={lesson.unitId}
+      unitTitle={lesson.unit?.title ?? ""}
     />
   );
 };
