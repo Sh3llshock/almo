@@ -20,6 +20,18 @@ const config = {
     },
     extend: {
       colors: {
+        brand: {
+          "50": "#E6F1FA",
+          "100": "#CCE3F5",
+          "200": "#99C7EB",
+          "300": "#66ABE1",
+          "400": "#338FD7",
+          "500": "#0061AA",
+          "600": "#00386C",
+          "700": "#002E57",
+          "800": "#002342",
+          "900": "#00192E",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
