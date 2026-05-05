@@ -48,6 +48,7 @@ Here is the folder structure of this app.
 duolingo-clone/
   |- actions/
     |-- challenge-progress.ts
+    |-- streak.ts
     |-- user-progress.ts
     |-- user-subscription.ts
   |- app/
@@ -57,6 +58,7 @@ duolingo-clone/
     |-- admin/
     |-- api/
     |-- lesson/
+    |-- notes/
     |-- apple-icon.png
     |-- favicon.ico
     |-- globals.css
@@ -68,8 +70,10 @@ duolingo-clone/
     |-- ui/
     |-- banner.tsx
     |-- feed-wrapper.tsx
-    |-- mobile-header.tsx
-    |-- mobile-sidebar.tsx
+    |-- glossary-term.tsx
+    |-- mobile-bottom-nav.tsx
+    |-- mobile-top-bar.tsx
+    |-- notes-view.tsx
     |-- promo.tsx
     |-- quests.tsx
     |-- sidebar-item.tsx
@@ -84,15 +88,22 @@ duolingo-clone/
     |-- schema.ts
   |- lib/
     |-- admin.ts
+    |-- anatomy-notes.ts
+    |-- glossary.ts
+    |-- parse-glossary.tsx
+    |-- streak.ts
     |-- stripe.ts
+    |-- unit-sections.ts
     |-- utils.ts
   |- public/
   |- scripts/
+    |-- migrate-daily-quests.ts
+    |-- migrate-streak.ts
     |-- prod.ts
   |- store/
     |-- use-exit-modal.ts
-    |-- use-hearts-modal.ts
     |-- use-practice-modal.ts
+    |-- use-streak-modal.ts
   |- .env.example
   |- .env/.env.local
   |- .gitignore
@@ -104,6 +115,7 @@ duolingo-clone/
   |- environment.d.ts
   |- eslint.config.mjs
   |- next.config.ts
+  |- package-lock.json
   |- package.json
   |- postcss.config.js
   |- proxy.ts
