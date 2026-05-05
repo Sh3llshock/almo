@@ -1,23 +1,30 @@
-import { InfinityIcon } from "lucide-react";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { courses } from "@/db/schema";
+import { isActiveToday } from "@/lib/streak";
+import { useStreakModal } from "@/store/use-streak-modal";
 
 type UserProgressProps = {
   activeCourse: typeof courses.$inferSelect;
-  hearts: number;
+  streak: number;
+  lastActivityDate: string | null;
   points: number;
   hasActiveSubscription: boolean;
 };
 
 export const UserProgress = ({
   activeCourse,
-  hearts,
+  streak,
+  lastActivityDate,
   points,
-  hasActiveSubscription,
 }: UserProgressProps) => {
+  const { open: openStreakModal } = useStreakModal();
+  const active = isActiveToday(lastActivityDate, new Date());
+
   return (
     <div className="flex w-full items-center justify-between gap-x-2">
       <Link href="/courses">
@@ -45,22 +52,20 @@ export const UserProgress = ({
         </Button>
       </Link>
 
-      <Link href="/shop">
-        <Button variant="ghost" className="text-rose-500">
-          <Image
-            src="/heart.svg"
-            height={22}
-            width={22}
-            alt="Hearts"
-            className="mr-2"
-          />
-          {hasActiveSubscription ? (
-            <InfinityIcon className="stroke-3 h-4 w-4" />
-          ) : (
-            hearts
-          )}
-        </Button>
-      </Link>
+      <Button
+        variant="ghost"
+        className="text-brand-600"
+        onClick={() => openStreakModal(streak)}
+      >
+        <Image
+          src="/streak.png"
+          height={22}
+          width={22}
+          alt="Streak"
+          className={`mr-2 ${active ? "" : "grayscale opacity-50"}`}
+        />
+        {streak}
+      </Button>
     </div>
   );
 };

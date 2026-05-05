@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
 
 import { ExitModal } from "@/components/modals/exit-modal";
-import { HeartsModal } from "@/components/modals/hearts-modal";
 import { PracticeModal } from "@/components/modals/practice-modal";
+import { StreakModal } from "@/components/modals/streak-modal";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config";
 
@@ -39,7 +39,7 @@ export default function RootLayout({
         <body className={font.className}>
           <Toaster theme="light" richColors closeButton />
           <ExitModal />
-          <HeartsModal />
+          <StreakModal />
           <PracticeModal />
           {children}
         </body>

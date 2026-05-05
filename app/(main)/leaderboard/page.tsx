@@ -2,7 +2,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
-import { Promo } from "@/components/promo";
 import { Quests } from "@/components/quests";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -34,11 +33,11 @@ const LeaderboardPage = async () => {
       <StickyWrapper>
         <UserProgress
           activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
+          streak={userProgress.streak}
+          lastActivityDate={userProgress.lastActivityDate ?? null}
           points={userProgress.points}
           hasActiveSubscription={isPro}
         />
-        {!isPro && <Promo />}
         <Quests points={userProgress.points} />
       </StickyWrapper>
 

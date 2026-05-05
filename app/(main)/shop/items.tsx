@@ -5,87 +5,63 @@ import { useTransition } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-import { refillHearts } from "@/actions/user-progress";
-import { createStripeUrl } from "@/actions/user-subscription";
+import { purchaseStreakFreeze } from "@/actions/streak";
 import { Button } from "@/components/ui/button";
-import { MAX_HEARTS, POINTS_TO_REFILL } from "@/constants";
+import { MAX_STREAK_FREEZES, STREAK_FREEZE_COST } from "@/constants";
 
 type ItemsProps = {
-  hearts: number;
+  streakFreezes: number;
   points: number;
   hasActiveSubscription: boolean;
 };
 
-export const Items = ({
-  hearts,
-  points,
-  hasActiveSubscription,
-}: ItemsProps) => {
+export const Items = ({ streakFreezes, points }: ItemsProps) => {
   const [pending, startTransition] = useTransition();
 
-  const onRefillHearts = () => {
-    if (pending || hearts === MAX_HEARTS || points < POINTS_TO_REFILL) return;
+  const atMax = streakFreezes >= MAX_STREAK_FREEZES;
+  const canAfford = points >= STREAK_FREEZE_COST;
+
+  const onPurchaseFreeze = () => {
+    if (pending || atMax || !canAfford) return;
 
     startTransition(() => {
-      refillHearts().catch(() => toast.error("Something went wrong."));
-    });
-  };
-
-  const onUpgrade = () => {
-    toast.loading("Redirecting to checkout...");
-    startTransition(() => {
-      createStripeUrl()
-        .then((response) => {
-          if (response.data) window.location.href = response.data;
-        })
-        .catch(() => toast.error("Something went wrong."));
+      purchaseStreakFreeze().catch(() => toast.error("Something went wrong."));
     });
   };
 
   return (
     <ul className="w-full">
       <div className="flex w-full items-center gap-x-4 border-t-2 p-4">
-        <Image src="/heart.svg" alt="Heart" height={60} width={60} />
+        <Image src="/streakFreeze.png" alt="Streak Freeze" height={60} width={60} />
 
         <div className="flex-1">
           <p className="text-base font-bold text-neutral-700 lg:text-xl">
-            Refill hearts
+            Streak Freeze
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Protects your streak for one missed day.
           </p>
         </div>
 
-        <Button
-          onClick={onRefillHearts}
-          disabled={
-            pending || hearts === MAX_HEARTS || points < POINTS_TO_REFILL
-          }
-          aria-disabled={
-            pending || hearts === MAX_HEARTS || points < POINTS_TO_REFILL
-          }
-        >
-          {hearts === MAX_HEARTS ? (
-            "full"
-          ) : (
-            <div className="flex items-center">
-              <Image src="/points.svg" alt="Points" height={20} width={20} />
-
-              <p>{POINTS_TO_REFILL}</p>
-            </div>
-          )}
-        </Button>
-      </div>
-
-      <div className="flex w-full items-center gap-x-4 border-t-2 p-4 pt-8">
-        <Image src="/unlimited.svg" alt="Unlimited" height={60} width={60} />
-
-        <div className="flex-1">
-          <p className="text-base font-bold text-neutral-700 lg:text-xl">
-            Unlimited hearts
-          </p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-slate-500">
+            {streakFreezes}/{MAX_STREAK_FREEZES}
+          </span>
+          <Button
+            onClick={onPurchaseFreeze}
+            disabled={pending || atMax || !canAfford}
+            aria-disabled={pending || atMax || !canAfford}
+          >
+            {atMax ? (
+              "max"
+            ) : (
+              <div className="flex items-center gap-1">
+                <Image src="/points.svg" alt="Points" height={20} width={20} />
+                <p>{STREAK_FREEZE_COST}</p>
+              </div>
+            )}
+          </Button>
         </div>
-
-        <Button onClick={onUpgrade} disabled={pending} aria-disabled={pending}>
-          {hasActiveSubscription ? "settings" : "upgrade"}
-        </Button>
       </div>
     </ul>
   );

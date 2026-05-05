@@ -1,6 +1,5 @@
-export const POINTS_TO_REFILL = 10;
-
-export const MAX_HEARTS = 5;
+export const STREAK_FREEZE_COST = 200;
+export const MAX_STREAK_FREEZES = 2;
 
 export const QUESTS = [
   {

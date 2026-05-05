@@ -10,15 +10,13 @@ import { toast } from "sonner";
 import { ArrowLeft, BookOpen } from "lucide-react";
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
-import { reduceHearts } from "@/actions/user-progress";
-import { MAX_HEARTS } from "@/constants";
 import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { parseGlossary } from "@/lib/parse-glossary";
 import { anatomyNotes } from "@/lib/anatomy-notes";
 import { NotesView } from "@/components/notes-view";
 import { Button } from "@/components/ui/button";
-import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticeModal } from "@/store/use-practice-modal";
+import { useStreakModal } from "@/store/use-streak-modal";
 
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
@@ -33,7 +31,7 @@ type ChallengeWithMeta = typeof challenges.$inferSelect & {
 
 type QuizProps = {
   initialPercentage: number;
-  initialHearts: number;
+  initialStreak: number;
   initialLessonId: number;
   initialLessonChallenges: ChallengeWithMeta[];
   userSubscription:
@@ -48,7 +46,7 @@ type Phase = "main" | "recap-intro" | "recap";
 
 export const Quiz = ({
   initialPercentage,
-  initialHearts,
+  initialStreak,
   initialLessonId,
   initialLessonChallenges,
   userSubscription,
@@ -61,15 +59,16 @@ export const Quiz = ({
   const { width, height } = useWindowSize();
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const { open: openHeartsModal } = useHeartsModal();
   const { open: openPracticeModal } = usePracticeModal();
+  const { open: openStreakModal } = useStreakModal();
 
   useMount(() => {
     if (initialPercentage === 100) openPracticeModal();
   });
 
   const [lessonId] = useState(initialLessonId);
-  const [hearts, setHearts] = useState(initialHearts);
+  const [streak, setStreak] = useState(initialStreak);
+  const [streakModalShown, setStreakModalShown] = useState(false);
   const [percentage, setPercentage] = useState(() =>
     initialPercentage === 100 ? 0 : initialPercentage
   );
@@ -133,12 +132,10 @@ export const Quiz = ({
       setCorrectOptionId(undefined);
 
       if (phase === "recap") {
-        // Rotate wrong item to back of queue
         setRecapQueue((prev) => [...prev.slice(1), prev[0]]);
         return;
       }
 
-      // Main phase: advance, checking if recap should start
       const nextIndex = activeIndex + 1;
       if (nextIndex >= challenges.length && wrongItems.length > 0) {
         setRecapQueue([...wrongItems]);
@@ -182,39 +179,27 @@ export const Quiz = ({
       startTransition(() => {
         upsertChallengeProgress(challenge.id)
           .then((response) => {
-            if (response?.error === "hearts") {
-              openHeartsModal();
-              return;
-            }
             void correctControls.play();
             setStatus("correct");
             if (phase !== "recap") {
               setPercentage((prev) => prev + 100 / challenges.length);
             }
-            if (initialPercentage === 100) {
-              setHearts((prev) => Math.min(prev + 1, MAX_HEARTS));
+            if (response?.streakIncremented && !streakModalShown) {
+              setStreak(response.newStreak);
+              setStreakModalShown(true);
+              openStreakModal(response.newStreak);
             }
           })
           .catch(() => toast.error("Something went wrong. Please try again."));
       });
     } else {
       startTransition(() => {
-        reduceHearts(challenge.id)
-          .then((response) => {
-            if (response?.error === "hearts") {
-              openHeartsModal();
-              return;
-            }
-            void incorrectControls.play();
-            setCorrectOptionId(correctOption.id);
-            setStatus("wrong");
-            if (!response?.error) setHearts((prev) => Math.max(prev - 1, 0));
-            // Track wrong in main phase only (recap queue already contains them)
-            if (phase === "main") {
-              setWrongItems((prev) => [...prev, challenge]);
-            }
-          })
-          .catch(() => toast.error("Something went wrong. Please try again."));
+        void incorrectControls.play();
+        setCorrectOptionId(correctOption.id);
+        setStatus("wrong");
+        if (phase === "main") {
+          setWrongItems((prev) => [...prev, challenge]);
+        }
       });
     }
   };
@@ -223,11 +208,7 @@ export const Quiz = ({
   if (phase === "recap-intro") {
     return (
       <>
-        <Header
-          hearts={hearts}
-          percentage={100}
-          hasActiveSubscription={!!userSubscription?.isActive}
-        />
+        <Header percentage={100} />
         <div className="mx-auto flex h-full max-w-lg flex-col items-center justify-center gap-y-6 px-6 text-center">
           <Image src="/mascot.png" alt="Mascot" height={100} width={100} />
           <h1 className="text-2xl font-bold text-neutral-700 lg:text-3xl">
@@ -264,21 +245,13 @@ export const Quiz = ({
           height={height}
         />
         <div className="mx-auto flex h-full max-w-lg flex-col items-center justify-center gap-y-4 text-center lg:gap-y-8">
-          <Image
-            src="/finish.svg"
-            alt="Finish"
-            height={100}
-            width={100}
-          />
+          <Image src="/finish.svg" alt="Finish" height={100} width={100} />
           <h1 className="text-lg font-bold text-neutral-700 lg:text-3xl">
             Great job! <br /> You&apos;ve completed the lesson.
           </h1>
           <div className="flex w-full items-center gap-x-4">
             <ResultCard variant="points" value={challenges.length * 10} />
-            <ResultCard
-              variant="hearts"
-              value={userSubscription?.isActive ? Infinity : hearts}
-            />
+            <ResultCard variant="streak" value={streak} />
           </div>
         </div>
         <Footer
@@ -322,16 +295,11 @@ export const Quiz = ({
         </div>
       )}
 
-      <Header
-        hearts={hearts}
-        percentage={displayPercentage}
-        hasActiveSubscription={!!userSubscription?.isActive}
-      />
+      <Header percentage={displayPercentage} />
 
       <div className="flex-1">
         <div className="flex h-full items-center justify-center">
           <div className="flex w-full flex-col gap-y-12 px-6 lg:min-h-[350px] lg:w-[600px] lg:px-0">
-            {/* Recap badge */}
             {phase === "recap" && (
               <div className="rounded-lg bg-amber-50 px-4 py-2 text-center text-sm font-semibold text-amber-700">
                 Recap mode — {recapQueue.length} question{recapQueue.length !== 1 ? "s" : ""} remaining
@@ -357,7 +325,6 @@ export const Quiz = ({
               />
             </div>
 
-            {/* Notes link (only for anatomy) */}
             {hasNotes && status === "none" && (
               <div className="flex justify-end">
                 <button

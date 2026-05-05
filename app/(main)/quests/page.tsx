@@ -2,7 +2,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/feed-wrapper";
-import { Promo } from "@/components/promo";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { Progress } from "@/components/ui/progress";
 import { UserProgress } from "@/components/user-progress";
@@ -27,11 +26,11 @@ const QuestsPage = async () => {
       <StickyWrapper>
         <UserProgress
           activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
+          streak={userProgress.streak}
+          lastActivityDate={userProgress.lastActivityDate ?? null}
           points={userProgress.points}
           hasActiveSubscription={isPro}
         />
-        {!isPro && <Promo />}
       </StickyWrapper>
 
       <FeedWrapper>

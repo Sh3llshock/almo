@@ -27,7 +27,8 @@ const ShopPage = async () => {
       <StickyWrapper>
         <UserProgress
           activeCourse={userProgress.activeCourse}
-          hearts={userProgress.hearts}
+          streak={userProgress.streak}
+          lastActivityDate={userProgress.lastActivityDate ?? null}
           points={userProgress.points}
           hasActiveSubscription={isPro}
         />
@@ -47,7 +48,7 @@ const ShopPage = async () => {
           </p>
 
           <Items
-            hearts={userProgress.hearts}
+            streakFreezes={userProgress.streakFreezes}
             points={userProgress.points}
             hasActiveSubscription={isPro}
           />

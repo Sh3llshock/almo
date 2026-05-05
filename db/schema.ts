@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  date,
   integer,
   pgEnum,
   pgTable,
@@ -8,8 +9,6 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-
-import { MAX_HEARTS } from "@/constants";
 
 export const courses = pgTable("courses", {
   id: serial("id").primaryKey(),
@@ -135,8 +134,10 @@ export const userProgress = pgTable("user_progress", {
   activeCourseId: integer("active_course_id").references(() => courses.id, {
     onDelete: "cascade",
   }),
-  hearts: integer("hearts").notNull().default(MAX_HEARTS),
   points: integer("points").notNull().default(0),
+  streak: integer("streak").notNull().default(0),
+  lastActivityDate: date("last_activity_date"),
+  streakFreezes: integer("streak_freezes").notNull().default(0),
 });
 
 export const userProgressRelations = relations(userProgress, ({ one }) => ({
