@@ -52,14 +52,14 @@ export const Card = ({
         selected && "border-sky-300 bg-sky-100 hover:bg-sky-100",
         selected &&
           status === "correct" &&
-          "border-brand-300 bg-brand-100 hover:bg-brand-100",
+          "border-green-300 bg-green-100 hover:bg-green-100",
         selected &&
           status === "wrong" &&
           "border-rose-300 bg-rose-100 hover:bg-rose-100",
         !selected &&
           isCorrect &&
           status === "wrong" &&
-          "border-brand-300 bg-brand-100 hover:bg-brand-100",
+          "border-green-300 bg-green-100 hover:bg-green-100",
         disabled && "pointer-events-none hover:bg-white",
         type === "ASSIST" && "w-full lg:p-3"
       )}
@@ -82,9 +82,9 @@ export const Card = ({
           className={cn(
             "text-sm text-neutral-600 lg:text-base",
             selected && "text-sky-500",
-            selected && status === "correct" && "text-brand-500",
+            selected && status === "correct" && "text-green-500",
             selected && status === "wrong" && "text-rose-500",
-            !selected && isCorrect && status === "wrong" && "text-brand-500"
+            !selected && isCorrect && status === "wrong" && "text-green-500"
           )}
         >
           {text}
@@ -96,9 +96,9 @@ export const Card = ({
             selected && "border-sky-300 text-sky-500",
             selected &&
               status === "correct" &&
-              "border-brand-500 text-brand-500",
+              "border-green-500 text-green-500",
             selected && status === "wrong" && "border-rose-500 text-rose-500",
-            !selected && isCorrect && status === "wrong" && "border-brand-500 text-brand-500"
+            !selected && isCorrect && status === "wrong" && "border-green-500 text-green-500"
           )}
         >
           {shortcut}
