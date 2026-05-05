@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useTransition } from "react";
+import { useCallback, useState } from "react";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -58,7 +58,6 @@ export const Quiz = ({
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
   const { width, height } = useWindowSize();
   const router = useRouter();
-  const [pending, startTransition] = useTransition();
   const { open: openPracticeModal } = usePracticeModal();
   const { open: openStreakModal } = useStreakModal();
 
@@ -176,31 +175,28 @@ export const Quiz = ({
     if (!correctOption) return;
 
     if (correctOption.id === selectedOption) {
-      startTransition(() => {
-        upsertChallengeProgress(challenge.id)
-          .then((response) => {
-            void correctControls.play();
-            setStatus("correct");
-            if (phase !== "recap") {
-              setPercentage((prev) => prev + 100 / challenges.length);
-            }
-            if (response?.streakIncremented && !streakModalShown) {
-              setStreak(response.newStreak);
-              setStreakModalShown(true);
-              openStreakModal(response.newStreak);
-            }
-          })
-          .catch(() => toast.error("Something went wrong. Please try again."));
-      });
+      // Instant UI feedback — server sync happens in background
+      void correctControls.play();
+      setStatus("correct");
+      if (phase !== "recap") {
+        setPercentage((prev) => prev + 100 / challenges.length);
+      }
+      upsertChallengeProgress(challenge.id)
+        .then((response) => {
+          if (response?.streakIncremented && !streakModalShown) {
+            setStreak(response.newStreak);
+            setStreakModalShown(true);
+            openStreakModal(response.newStreak);
+          }
+        })
+        .catch(() => toast.error("Something went wrong. Please try again."));
     } else {
-      startTransition(() => {
-        void incorrectControls.play();
-        setCorrectOptionId(correctOption.id);
-        setStatus("wrong");
-        if (phase === "main") {
-          setWrongItems((prev) => [...prev, challenge]);
-        }
-      });
+      void incorrectControls.play();
+      setCorrectOptionId(correctOption.id);
+      setStatus("wrong");
+      if (phase === "main") {
+        setWrongItems((prev) => [...prev, challenge]);
+      }
     }
   };
 
@@ -320,7 +316,7 @@ export const Quiz = ({
                 status={status}
                 selectedOption={selectedOption}
                 correctOptionId={correctOptionId}
-                disabled={pending}
+                disabled={status !== "none"}
                 type={challenge.type}
               />
             </div>
@@ -341,7 +337,7 @@ export const Quiz = ({
       </div>
 
       <Footer
-        disabled={pending || !selectedOption}
+        disabled={!selectedOption && status === "none"}
         status={status}
         onCheck={onContinue}
         correctAnswerText={correctAnswerText}

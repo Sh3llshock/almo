@@ -52,7 +52,7 @@ const LearnPage = async () => {
           hasActiveSubscription={isPro}
         />
 
-        <Quests points={userProgress.points} />
+        <Quests />
       </StickyWrapper>
       <FeedWrapper>
         <Header title={userProgress.activeCourse.title} />

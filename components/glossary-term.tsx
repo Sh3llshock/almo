@@ -20,8 +20,11 @@ export const GlossaryTerm = ({
   onShowInNotes,
 }: GlossaryTermProps) => {
   const [open, setOpen] = useState(false);
+  const [translateOffset, setTranslateOffset] = useState(0);
   const wrapperRef = useRef<HTMLSpanElement>(null);
+  const popupRef = useRef<HTMLSpanElement>(null);
 
+  // Close on outside click
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
@@ -29,6 +32,20 @@ export const GlossaryTerm = ({
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  // Clamp popup within viewport after it renders
+  useEffect(() => {
+    if (!open || !popupRef.current) return;
+    const rect = popupRef.current.getBoundingClientRect();
+    const margin = 8;
+    if (rect.left < margin) {
+      setTranslateOffset(margin - rect.left);
+    } else if (rect.right > window.innerWidth - margin) {
+      setTranslateOffset(window.innerWidth - margin - rect.right);
+    } else {
+      setTranslateOffset(0);
+    }
   }, [open]);
 
   const handleShowInNotes = () => {
@@ -47,7 +64,13 @@ export const GlossaryTerm = ({
       </button>
 
       {open && (
-        <span className="absolute bottom-full left-1/2 z-50 mb-2 w-72 -translate-x-1/2 rounded-xl border-2 border-brand-200 bg-white p-3 shadow-xl">
+        <span
+          ref={popupRef}
+          style={{
+            transform: `translateX(calc(-50% + ${translateOffset}px))`,
+          }}
+          className="absolute bottom-full left-1/2 z-50 mb-2 w-64 rounded-xl border-2 border-brand-200 bg-white p-3 shadow-xl sm:w-72"
+        >
           {/* arrow */}
           <span className="absolute -bottom-[9px] left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-brand-200" />
           <span className="absolute -bottom-[7px] left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-t-8 border-x-transparent border-t-white" />

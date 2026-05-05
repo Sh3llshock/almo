@@ -138,6 +138,11 @@ export const userProgress = pgTable("user_progress", {
   streak: integer("streak").notNull().default(0),
   lastActivityDate: date("last_activity_date"),
   streakFreezes: integer("streak_freezes").notNull().default(0),
+  dailyQuestDate: date("daily_quest_date"),
+  dailyXpEarned: integer("daily_xp_earned").notNull().default(0),
+  dailyQuizzesCompleted: integer("daily_quizzes_completed").notNull().default(0),
+  dailyXpQuestClaimed: boolean("daily_xp_quest_claimed").notNull().default(false),
+  dailyQuizQuestClaimed: boolean("daily_quiz_quest_claimed").notNull().default(false),
 });
 
 export const userProgressRelations = relations(userProgress, ({ one }) => ({

@@ -1,29 +1,19 @@
 export const STREAK_FREEZE_COST = 200;
 export const MAX_STREAK_FREEZES = 2;
 
-export const QUESTS = [
+export const DAILY_QUESTS = [
   {
-    title: "Earn 20 XP",
-    value: 20,
-  },
-  {
+    id: "xp",
     title: "Earn 50 XP",
-    value: 50,
+    description: "Answer challenges correctly to earn XP.",
+    goal: 50,
+    reward: 20,
   },
   {
-    title: "Earn 100 XP",
-    value: 100,
+    id: "quizzes",
+    title: "Complete 3 lessons",
+    description: "Finish 3 full lessons today.",
+    goal: 3,
+    reward: 30,
   },
-  {
-    title: "Earn 250 XP",
-    value: 250,
-  },
-  {
-    title: "Earn 500 XP",
-    value: 500,
-  },
-  {
-    title: "Earn 1000 XP",
-    value: 1000,
-  },
-];
+] as const;

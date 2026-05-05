@@ -52,7 +52,7 @@ const SectionPage = async ({ params }: SectionPageProps) => {
       <NotesView unitTitle={unit.title} sectionId={sectionId} sectionOnly />
 
       {lesson && (
-        <div className="fixed bottom-6 right-6 z-20">
+        <div className="fixed bottom-[80px] right-4 z-20 lg:bottom-6 lg:right-6">
           <Link href={`/lesson/${lesson.id}`}>
             <Button
               size="lg"

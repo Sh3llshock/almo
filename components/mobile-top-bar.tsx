@@ -12,7 +12,6 @@ export const MobileTopBar = async () => {
   const points = userProgress?.points ?? 0;
   const lastActivityDate = userProgress?.lastActivityDate ?? null;
   const active = isActiveToday(lastActivityDate, new Date());
-  const level = Math.floor(points / 100) + 1;
 
   return (
     <nav className="fixed top-0 z-50 flex h-[56px] w-full items-center justify-between border-b bg-white px-4 lg:hidden">
@@ -30,14 +29,9 @@ export const MobileTopBar = async () => {
         </ClerkLoaded>
 
         {userProgress && (
-          <div className="flex items-center gap-1.5">
-            <span className="text-sm font-bold text-slate-700">
-              {userProgress.userName}
-            </span>
-            <span className="rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-bold text-brand-600">
-              Lv.{level}
-            </span>
-          </div>
+          <span className="text-sm font-bold text-slate-700">
+            {userProgress.userName}
+          </span>
         )}
       </div>
 

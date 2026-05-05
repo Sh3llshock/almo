@@ -1,18 +1,32 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { QUESTS } from "@/constants";
+import { DAILY_QUESTS } from "@/constants";
+import { getUserProgress } from "@/db/queries";
 
-type QuestsProps = { points: number };
+export const Quests = async () => {
+  const userProgress = await getUserProgress();
+  if (!userProgress) return null;
 
-export const Quests = ({ points }: QuestsProps) => {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const isToday = userProgress.dailyQuestDate === todayStr;
+
+  const questProgress = [
+    {
+      ...DAILY_QUESTS[0],
+      current: isToday ? userProgress.dailyXpEarned : 0,
+    },
+    {
+      ...DAILY_QUESTS[1],
+      current: isToday ? userProgress.dailyQuizzesCompleted : 0,
+    },
+  ];
+
   return (
     <div className="space-y-4 rounded-xl border-2 p-4">
-      <div className="flex w-full items-center justify-between space-y-2">
-        <h3 className="text-lg font-bold">Quests</h3>
-
+      <div className="flex w-full items-center justify-between">
+        <h3 className="text-lg font-bold">Daily Quests</h3>
         <Link href="/quests">
           <Button size="sm" variant="primaryOutline">
             View all
@@ -21,23 +35,17 @@ export const Quests = ({ points }: QuestsProps) => {
       </div>
 
       <ul className="w-full space-y-4">
-        {QUESTS.map((quest) => {
-          const progress = (points / quest.value) * 100;
-
+        {questProgress.map((quest) => {
+          const pct = Math.min((quest.current / quest.goal) * 100, 100);
           return (
-            <div
-              className="flex w-full items-center gap-x-3 pb-4"
-              key={quest.title}
-            >
-              <Image src="/points.svg" alt="Points" width={40} height={40} />
-
-              <div className="flex w-full flex-col gap-y-2">
-                <p className="text-sm font-bold text-neutral-700">
-                  {quest.title}
-                </p>
-
-                <Progress value={progress} className="h-2" />
+            <div key={quest.id} className="flex w-full flex-col gap-y-1 pb-2">
+              <div className="flex items-center justify-between text-sm">
+                <p className="font-bold text-neutral-700">{quest.title}</p>
+                <span className="text-xs text-muted-foreground">
+                  {quest.current}/{quest.goal}
+                </span>
               </div>
+              <Progress value={pct} className="h-2" />
             </div>
           );
         })}
