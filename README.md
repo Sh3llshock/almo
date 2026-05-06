@@ -107,6 +107,7 @@ duolingo-clone/
   |- .env.example
   |- .env/.env.local
   |- .gitignore
+  |- .npmrc
   |- .prettierrc.json
   |- bun.lock
   |- components.json
