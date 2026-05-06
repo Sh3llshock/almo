@@ -25,16 +25,16 @@ const main = async () => {
     const courses = await db
       .insert(schema.courses)
       .values([
-        { title: "Spanish", imageSrc: "/es.svg" },
         { title: "Anatomy", imageSrc: "/anatomy.png" },
+        { title: "Kinesiology", imageSrc: "/kinesiology.png" },
       ])
       .returning();
 
     for (const course of courses) {
-      if (course.title === "Spanish") {
-        await seedSpanish(course.id);
-      } else if (course.title === "Anatomy") {
+      if (course.title === "Anatomy") {
         await seedAnatomy(course.id);
+      } else if (course.title === "Kinesiology") {
+        await seedKinesiology(course.id);
       }
     }
 
@@ -45,298 +45,6 @@ const main = async () => {
   }
 };
 
-const seedSpanish = async (courseId: number) => {
-  const units = await db
-    .insert(schema.units)
-    .values([
-      {
-        courseId,
-        title: "Unit 1",
-        description: "Learn the basics of Spanish",
-        order: 1,
-      },
-      {
-        courseId,
-        title: "Unit 2",
-        description: "Learn intermediate Spanish",
-        order: 2,
-      },
-    ])
-    .returning();
-
-  for (const unit of units) {
-    const lessons = await db
-      .insert(schema.lessons)
-      .values([
-        { unitId: unit.id, title: "Nouns", order: 1 },
-        { unitId: unit.id, title: "Verbs", order: 2 },
-        { unitId: unit.id, title: "Adjectives", order: 3 },
-        { unitId: unit.id, title: "Phrases", order: 4 },
-        { unitId: unit.id, title: "Sentences", order: 5 },
-      ])
-      .returning();
-
-    for (const lesson of lessons) {
-      const challenges = await db
-        .insert(schema.challenges)
-        .values([
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the man"?',
-            order: 1,
-          },
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the woman"?',
-            order: 2,
-          },
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the boy"?',
-            order: 3,
-          },
-          {
-            lessonId: lesson.id,
-            type: "ASSIST",
-            question: '"the man"',
-            order: 4,
-          },
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the zombie"?',
-            order: 5,
-          },
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the robot"?',
-            order: 6,
-          },
-          {
-            lessonId: lesson.id,
-            type: "SELECT",
-            question: 'Which one of these is "the girl"?',
-            order: 7,
-          },
-          {
-            lessonId: lesson.id,
-            type: "ASSIST",
-            question: '"the zombie"',
-            order: 8,
-          },
-        ])
-        .returning();
-
-      for (const challenge of challenges) {
-        if (challenge.order === 1) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el hombre",
-              imageSrc: "/man.svg",
-              audioSrc: "/es_man.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "la mujer",
-              imageSrc: "/woman.svg",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el chico",
-              imageSrc: "/boy.svg",
-              audioSrc: "/es_boy.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 2) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "la mujer",
-              imageSrc: "/woman.svg",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el chico",
-              imageSrc: "/boy.svg",
-              audioSrc: "/es_boy.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el hombre",
-              imageSrc: "/man.svg",
-              audioSrc: "/es_man.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 3) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "la mujer",
-              imageSrc: "/woman.svg",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el hombre",
-              imageSrc: "/man.svg",
-              audioSrc: "/es_man.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el chico",
-              imageSrc: "/boy.svg",
-              audioSrc: "/es_boy.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 4) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "la mujer",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el hombre",
-              audioSrc: "/es_man.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el chico",
-              audioSrc: "/es_boy.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 5) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el hombre",
-              imageSrc: "/man.svg",
-              audioSrc: "/es_man.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "la mujer",
-              imageSrc: "/woman.svg",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el zombie",
-              imageSrc: "/zombie.svg",
-              audioSrc: "/es_zombie.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 6) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el robot",
-              imageSrc: "/robot.svg",
-              audioSrc: "/es_robot.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el zombie",
-              imageSrc: "/zombie.svg",
-              audioSrc: "/es_zombie.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el chico",
-              imageSrc: "/boy.svg",
-              audioSrc: "/es_boy.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 7) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "la nina",
-              imageSrc: "/girl.svg",
-              audioSrc: "/es_girl.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el zombie",
-              imageSrc: "/zombie.svg",
-              audioSrc: "/es_zombie.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el hombre",
-              imageSrc: "/man.svg",
-              audioSrc: "/es_man.mp3",
-            },
-          ]);
-        }
-
-        if (challenge.order === 8) {
-          await db.insert(schema.challengeOptions).values([
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "la mujer",
-              audioSrc: "/es_woman.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: true,
-              text: "el zombie",
-              audioSrc: "/es_zombie.mp3",
-            },
-            {
-              challengeId: challenge.id,
-              correct: false,
-              text: "el chico",
-              audioSrc: "/es_boy.mp3",
-            },
-          ]);
-        }
-      }
-    }
-  }
-};
 
 const seedAnatomy = async (courseId: number) => {
   const units = await db
@@ -1772,4 +1480,903 @@ const seedJointsRecap = async (lessonId: number) => {
   }
 };
 
+// ══════════════════════════════════════════════════════════════════════════════
+// KINESIOLOGY
+// ══════════════════════════════════════════════════════════════════════════════
+
+const seedKinesiology = async (courseId: number) => {
+  const units = await db
+    .insert(schema.units)
+    .values([
+      {
+        courseId,
+        title: "Unit 1: Muscles & Contraction",
+        description: "Upper body, lower body, core muscles and contraction mechanics",
+        order: 1,
+      },
+      {
+        courseId,
+        title: "Unit 2: Movement Science",
+        description: "Forces, levers, gait, exercise physiology and rehabilitation",
+        order: 2,
+      },
+    ])
+    .returning();
+
+  for (const unit of units) {
+    if (unit.order === 1) await seedKinesiologyUnit1(unit.id);
+    else if (unit.order === 2) await seedKinesiologyUnit2(unit.id);
+  }
+};
+
+const seedKinesiologyUnit1 = async (unitId: number) => {
+  const lessons = await db
+    .insert(schema.lessons)
+    .values([
+      { unitId, title: "Upper Body Muscles", order: 1 },
+      { unitId, title: "Lower Body Muscles", order: 2 },
+      { unitId, title: "Core Muscles", order: 3 },
+      { unitId, title: "Muscle Contraction", order: 4 },
+      { unitId, title: "Unit Recap", order: 5 },
+    ])
+    .returning();
+
+  for (const lesson of lessons) {
+    if (lesson.order === 1) await seedUpperBodyMusclesLesson(lesson.id);
+    if (lesson.order === 2) await seedLowerBodyMusclesLesson(lesson.id);
+    if (lesson.order === 3) await seedCoreMusclesLesson(lesson.id);
+    if (lesson.order === 4) await seedMuscleContractionLesson(lesson.id);
+    if (lesson.order === 5) await seedKinUnit1Recap(lesson.id);
+  }
+};
+
+const seedKinesiologyUnit2 = async (unitId: number) => {
+  const lessons = await db
+    .insert(schema.lessons)
+    .values([
+      { unitId, title: "Forces & Levers", order: 1 },
+      { unitId, title: "Gait Analysis", order: 2 },
+      { unitId, title: "Exercise Physiology", order: 3 },
+      { unitId, title: "Rehabilitation Principles", order: 4 },
+      { unitId, title: "Unit Recap", order: 5 },
+    ])
+    .returning();
+
+  for (const lesson of lessons) {
+    if (lesson.order === 1) await seedForcesLeversLesson(lesson.id);
+    if (lesson.order === 2) await seedGaitLesson(lesson.id);
+    if (lesson.order === 3) await seedExercisePhysiologyLesson(lesson.id);
+    if (lesson.order === 4) await seedRehabPrinciplesLesson(lesson.id);
+    if (lesson.order === 5) await seedKinUnit2Recap(lesson.id);
+  }
+};
+
+// ── Upper Body Muscles ────────────────────────────────────────────────────────
+const seedUpperBodyMusclesLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "Which muscle is the primary shoulder abductor?", order: 1 },
+      { lessonId, type: "SELECT", question: "The biceps brachii performs which action at the elbow?", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the largest muscle of the back.", order: 3 },
+      { lessonId, type: "SELECT", question: "Which rotator cuff muscle internally rotates the humerus?", order: 4 },
+      { lessonId, type: "TRUE_FALSE", question: "The trapezius muscle is located on the anterior chest.", order: 5 },
+      { lessonId, type: "SELECT", question: "The pectoralis major's primary action is:", order: 6 },
+      { lessonId, type: "ASSIST", question: "Which muscle elevates and retracts the scapula?", order: 7 },
+      { lessonId, type: "TRUE_FALSE", question: "The deltoid has three distinct parts: anterior, middle, and posterior.", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ brachii flexes the elbow and supinates the forearm.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ is the primary shoulder abductor.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Deltoid", correct: true },
+      { text: "Pectoralis major", correct: false },
+      { text: "Trapezius", correct: false },
+      { text: "Biceps brachii", correct: false },
+    ],
+    2: [
+      { text: "Flexion and supination", correct: true },
+      { text: "Extension and pronation", correct: false },
+      { text: "Abduction", correct: false },
+      { text: "Internal rotation", correct: false },
+    ],
+    3: [
+      { text: "Latissimus dorsi", correct: true },
+      { text: "Trapezius", correct: false },
+      { text: "Rhomboid major", correct: false },
+      { text: "Teres major", correct: false },
+    ],
+    4: [
+      { text: "Subscapularis", correct: true },
+      { text: "Infraspinatus", correct: false },
+      { text: "Supraspinatus", correct: false },
+      { text: "Teres minor", correct: false },
+    ],
+    5: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    6: [
+      { text: "Horizontal adduction and flexion", correct: true },
+      { text: "Shoulder abduction", correct: false },
+      { text: "Elbow extension", correct: false },
+      { text: "Scapular retraction", correct: false },
+    ],
+    7: [
+      { text: "Trapezius", correct: true },
+      { text: "Serratus anterior", correct: false },
+      { text: "Rhomboid minor", correct: false },
+      { text: "Levator scapulae", correct: false },
+    ],
+    8: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    9: [
+      { text: "Biceps", correct: true },
+      { text: "Triceps", correct: false },
+      { text: "Brachialis", correct: false },
+      { text: "Coracobrachialis", correct: false },
+    ],
+    10: [
+      { text: "Deltoid", correct: true },
+      { text: "Supraspinatus", correct: false },
+      { text: "Trapezius", correct: false },
+      { text: "Biceps", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Lower Body Muscles ────────────────────────────────────────────────────────
+const seedLowerBodyMusclesLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "Which muscle group is primarily responsible for knee extension?", order: 1 },
+      { lessonId, type: "SELECT", question: "The gluteus maximus primarily performs which action?", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the muscle that plantarflexes the ankle and flexes the knee.", order: 3 },
+      { lessonId, type: "SELECT", question: "Which muscle is the primary hip flexor?", order: 4 },
+      { lessonId, type: "TRUE_FALSE", question: "The hamstrings both flex the knee and extend the hip.", order: 5 },
+      { lessonId, type: "SELECT", question: "The tibialis anterior performs which action?", order: 6 },
+      { lessonId, type: "ASSIST", question: "Which muscle group adducts the hip?", order: 7 },
+      { lessonId, type: "TRUE_FALSE", question: "The soleus crosses the knee joint.", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ maximus is the largest muscle in the body.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "The quadriceps femoris is the primary ___ extensor.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Quadriceps femoris", correct: true },
+      { text: "Hamstrings", correct: false },
+      { text: "Gastrocnemius", correct: false },
+      { text: "Adductors", correct: false },
+    ],
+    2: [
+      { text: "Hip extension", correct: true },
+      { text: "Hip flexion", correct: false },
+      { text: "Knee flexion", correct: false },
+      { text: "Hip abduction", correct: false },
+    ],
+    3: [
+      { text: "Gastrocnemius", correct: true },
+      { text: "Soleus", correct: false },
+      { text: "Tibialis anterior", correct: false },
+      { text: "Peroneus longus", correct: false },
+    ],
+    4: [
+      { text: "Iliopsoas", correct: true },
+      { text: "Rectus femoris", correct: false },
+      { text: "Sartorius", correct: false },
+      { text: "Tensor fasciae latae", correct: false },
+    ],
+    5: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    6: [
+      { text: "Dorsiflexion and foot inversion", correct: true },
+      { text: "Plantarflexion", correct: false },
+      { text: "Knee extension", correct: false },
+      { text: "Foot eversion", correct: false },
+    ],
+    7: [
+      { text: "Adductor group", correct: true },
+      { text: "Abductor group", correct: false },
+      { text: "Quadriceps", correct: false },
+      { text: "Hamstrings", correct: false },
+    ],
+    8: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    9: [
+      { text: "Gluteus", correct: true },
+      { text: "Rectus", correct: false },
+      { text: "Vastus", correct: false },
+      { text: "Iliacus", correct: false },
+    ],
+    10: [
+      { text: "Knee", correct: true },
+      { text: "Hip", correct: false },
+      { text: "Ankle", correct: false },
+      { text: "Foot", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Core Muscles ──────────────────────────────────────────────────────────────
+const seedCoreMusclesLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "Which muscle is considered the deepest layer of the abdominal wall?", order: 1 },
+      { lessonId, type: "SELECT", question: "The erector spinae group primarily performs which action?", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the muscle that forms the 'six-pack' appearance.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "The diaphragm plays a role in core stability.", order: 4 },
+      { lessonId, type: "SELECT", question: "Which muscle compresses the abdominal contents and assists forced expiration?", order: 5 },
+      { lessonId, type: "ASSIST", question: "What is the name of the flat tendinous region connecting left and right abdominals?", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "The multifidus muscle runs along the entire length of the spine.", order: 7 },
+      { lessonId, type: "SELECT", question: "The quadratus lumborum performs which action?", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ abdominis is the deepest abdominal muscle.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "The rectus abdominis is enclosed in a fibrous ___ sheath.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Transversus abdominis", correct: true },
+      { text: "Rectus abdominis", correct: false },
+      { text: "Internal oblique", correct: false },
+      { text: "External oblique", correct: false },
+    ],
+    2: [
+      { text: "Trunk extension and lateral flexion", correct: true },
+      { text: "Trunk flexion", correct: false },
+      { text: "Hip flexion", correct: false },
+      { text: "Shoulder stabilisation", correct: false },
+    ],
+    3: [
+      { text: "Rectus abdominis", correct: true },
+      { text: "External oblique", correct: false },
+      { text: "Transversus abdominis", correct: false },
+      { text: "Internal oblique", correct: false },
+    ],
+    4: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    5: [
+      { text: "Transversus abdominis", correct: true },
+      { text: "Rectus abdominis", correct: false },
+      { text: "Erector spinae", correct: false },
+      { text: "Multifidus", correct: false },
+    ],
+    6: [
+      { text: "Linea alba", correct: true },
+      { text: "Inguinal ligament", correct: false },
+      { text: "Iliotibial band", correct: false },
+      { text: "Thoracolumbar fascia", correct: false },
+    ],
+    7: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    8: [
+      { text: "Lateral flexion and hip elevation", correct: true },
+      { text: "Hip extension", correct: false },
+      { text: "Trunk rotation", correct: false },
+      { text: "Ankle plantarflexion", correct: false },
+    ],
+    9: [
+      { text: "Transversus", correct: true },
+      { text: "Rectus", correct: false },
+      { text: "Oblique", correct: false },
+      { text: "Multifidus", correct: false },
+    ],
+    10: [
+      { text: "Rectus", correct: true },
+      { text: "Linea", correct: false },
+      { text: "Fascial", correct: false },
+      { text: "Oblique", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Muscle Contraction ────────────────────────────────────────────────────────
+const seedMuscleContractionLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "What is the functional unit of a muscle called?", order: 1 },
+      { lessonId, type: "SELECT", question: "During a concentric contraction, the muscle:", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the protein that forms the thin filaments of a sarcomere.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "An eccentric contraction occurs when the muscle lengthens under load.", order: 4 },
+      { lessonId, type: "SELECT", question: "Which ion triggers muscle contraction by binding to troponin?", order: 5 },
+      { lessonId, type: "SELECT", question: "An isometric contraction produces:", order: 6 },
+      { lessonId, type: "ASSIST", question: "What is the all-or-none principle in muscle physiology?", order: 7 },
+      { lessonId, type: "TRUE_FALSE", question: "Myosin forms the thin filaments of the sarcomere.", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ is the functional unit of the muscle fibre.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "Calcium binds to ___ to initiate cross-bridge cycling.", order: 10 },
+      { lessonId, type: "SELECT", question: "Which type of muscle fibre fatigue most quickly?", order: 11 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Sarcomere", correct: true },
+      { text: "Motor unit", correct: false },
+      { text: "Myofibril", correct: false },
+      { text: "Fascicle", correct: false },
+    ],
+    2: [
+      { text: "Shortens and generates force", correct: true },
+      { text: "Lengthens under load", correct: false },
+      { text: "Generates no movement", correct: false },
+      { text: "Relaxes completely", correct: false },
+    ],
+    3: [
+      { text: "Actin", correct: true },
+      { text: "Myosin", correct: false },
+      { text: "Titin", correct: false },
+      { text: "Tropomyosin", correct: false },
+    ],
+    4: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    5: [
+      { text: "Calcium", correct: true },
+      { text: "Sodium", correct: false },
+      { text: "Potassium", correct: false },
+      { text: "Magnesium", correct: false },
+    ],
+    6: [
+      { text: "No joint movement", correct: true },
+      { text: "Muscle shortening", correct: false },
+      { text: "Muscle lengthening", correct: false },
+      { text: "Relaxation of the muscle", correct: false },
+    ],
+    7: [
+      { text: "Each motor neuron either fires completely or not at all", correct: true },
+      { text: "Muscles contract proportionally to stimulus strength", correct: false },
+      { text: "All fibres in a muscle fire simultaneously", correct: false },
+      { text: "Larger muscles contract before smaller ones", correct: false },
+    ],
+    8: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    9: [
+      { text: "Sarcomere", correct: true },
+      { text: "Myofibril", correct: false },
+      { text: "Motor unit", correct: false },
+      { text: "Fascicle", correct: false },
+    ],
+    10: [
+      { text: "Troponin", correct: true },
+      { text: "Tropomyosin", correct: false },
+      { text: "Actin", correct: false },
+      { text: "Myosin", correct: false },
+    ],
+    11: [
+      { text: "Type II b (fast-twitch glycolytic)", correct: true },
+      { text: "Type I (slow-twitch oxidative)", correct: false },
+      { text: "Type II a (fast-twitch oxidative)", correct: false },
+      { text: "All fatigue at the same rate", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Unit 1 Recap ─────────────────────────────────────────────────────────────
+const seedKinUnit1Recap = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "Which muscle is the primary shoulder abductor?", order: 1 },
+      { lessonId, type: "SELECT", question: "The hamstrings perform what two actions?", order: 2 },
+      { lessonId, type: "TRUE_FALSE", question: "The transversus abdominis is the deepest abdominal muscle.", order: 3 },
+      { lessonId, type: "SELECT", question: "A concentric contraction involves:", order: 4 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ is the functional unit of a muscle fibre.", order: 5 },
+      { lessonId, type: "SELECT", question: "Which muscle performs hip extension?", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "Myosin forms the thin filaments of the sarcomere.", order: 7 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ abdominis forms the 'six-pack'.", order: 8 },
+      { lessonId, type: "SELECT", question: "Calcium triggers contraction by binding to:", order: 9 },
+      { lessonId, type: "ASSIST", question: "Which muscle group extends the knee?", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Deltoid", correct: true },
+      { text: "Pectoralis major", correct: false },
+      { text: "Trapezius", correct: false },
+      { text: "Supraspinatus", correct: false },
+    ],
+    2: [
+      { text: "Knee flexion and hip extension", correct: true },
+      { text: "Knee extension and hip flexion", correct: false },
+      { text: "Ankle plantarflexion and knee flexion", correct: false },
+      { text: "Hip abduction and knee extension", correct: false },
+    ],
+    3: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    4: [
+      { text: "Muscle shortening under load", correct: true },
+      { text: "Muscle lengthening under load", correct: false },
+      { text: "No change in muscle length", correct: false },
+      { text: "Complete muscle relaxation", correct: false },
+    ],
+    5: [
+      { text: "Sarcomere", correct: true },
+      { text: "Myofibril", correct: false },
+      { text: "Motor unit", correct: false },
+      { text: "Fascicle", correct: false },
+    ],
+    6: [
+      { text: "Gluteus maximus", correct: true },
+      { text: "Iliopsoas", correct: false },
+      { text: "Rectus femoris", correct: false },
+      { text: "Adductor magnus", correct: false },
+    ],
+    7: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    8: [
+      { text: "Rectus", correct: true },
+      { text: "Transversus", correct: false },
+      { text: "External oblique", correct: false },
+      { text: "Internal oblique", correct: false },
+    ],
+    9: [
+      { text: "Troponin", correct: true },
+      { text: "Tropomyosin", correct: false },
+      { text: "Actin", correct: false },
+      { text: "Myosin", correct: false },
+    ],
+    10: [
+      { text: "Quadriceps femoris", correct: true },
+      { text: "Hamstrings", correct: false },
+      { text: "Gastrocnemius", correct: false },
+      { text: "Adductors", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Forces & Levers ───────────────────────────────────────────────────────────
+const seedForcesLeversLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "In a first-class lever, where is the fulcrum located?", order: 1 },
+      { lessonId, type: "SELECT", question: "Which class of lever provides the greatest mechanical advantage?", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the type of force that acts perpendicular to a joint surface.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "The elbow during bicep curl is an example of a third-class lever.", order: 4 },
+      { lessonId, type: "SELECT", question: "Torque is calculated as:", order: 5 },
+      { lessonId, type: "ASSIST", question: "Define ground reaction force.", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "A second-class lever always has the load between the fulcrum and effort.", order: 7 },
+      { lessonId, type: "SELECT", question: "The moment arm is the:", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "Torque equals force multiplied by the ___ arm.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "A ___ class lever has the fulcrum between the effort and load.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Between the effort and load", correct: true },
+      { text: "At one end", correct: false },
+      { text: "At the load end", correct: false },
+      { text: "Beyond the load", correct: false },
+    ],
+    2: [
+      { text: "Second class", correct: true },
+      { text: "First class", correct: false },
+      { text: "Third class", correct: false },
+      { text: "All are equal", correct: false },
+    ],
+    3: [
+      { text: "Compressive force", correct: true },
+      { text: "Shear force", correct: false },
+      { text: "Tensile force", correct: false },
+      { text: "Torsional force", correct: false },
+    ],
+    4: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    5: [
+      { text: "Force × moment arm", correct: true },
+      { text: "Force × velocity", correct: false },
+      { text: "Mass × acceleration", correct: false },
+      { text: "Force / distance", correct: false },
+    ],
+    6: [
+      { text: "The equal and opposite force the ground exerts on the body", correct: true },
+      { text: "The force of gravity on the body", correct: false },
+      { text: "Muscle force during stance", correct: false },
+      { text: "Joint contact force during walking", correct: false },
+    ],
+    7: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    8: [
+      { text: "Perpendicular distance from the axis to the line of force", correct: true },
+      { text: "Length of the limb segment", correct: false },
+      { text: "Distance between two joints", correct: false },
+      { text: "Magnitude of the applied force", correct: false },
+    ],
+    9: [
+      { text: "Moment", correct: true },
+      { text: "Velocity", correct: false },
+      { text: "Angular", correct: false },
+      { text: "Gravity", correct: false },
+    ],
+    10: [
+      { text: "First", correct: true },
+      { text: "Second", correct: false },
+      { text: "Third", correct: false },
+      { text: "Fourth", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Gait Analysis ─────────────────────────────────────────────────────────────
+const seedGaitLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "The gait cycle begins and ends with:", order: 1 },
+      { lessonId, type: "SELECT", question: "What percentage of the gait cycle is the stance phase?", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the point in the gait cycle when both feet are on the ground.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "Heel strike marks the beginning of the swing phase.", order: 4 },
+      { lessonId, type: "SELECT", question: "Cadence is defined as:", order: 5 },
+      { lessonId, type: "ASSIST", question: "What is the term for walking speed expressed as distance per unit time?", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "During double support, body weight is transferred between feet.", order: 7 },
+      { lessonId, type: "SELECT", question: "Trendelenburg gait results from weakness in which muscle?", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ phase of gait accounts for approximately 60% of the cycle.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "Step length is the distance from one ___ strike to the contralateral heel strike.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Heel strike of the same foot", correct: true },
+      { text: "Toe off of either foot", correct: false },
+      { text: "Mid-stance", correct: false },
+      { text: "Swing phase initiation", correct: false },
+    ],
+    2: [
+      { text: "60%", correct: true },
+      { text: "40%", correct: false },
+      { text: "50%", correct: false },
+      { text: "70%", correct: false },
+    ],
+    3: [
+      { text: "Double support", correct: true },
+      { text: "Single support", correct: false },
+      { text: "Swing phase", correct: false },
+      { text: "Terminal stance", correct: false },
+    ],
+    4: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    5: [
+      { text: "Number of steps per minute", correct: true },
+      { text: "Distance walked per minute", correct: false },
+      { text: "Number of strides per minute", correct: false },
+      { text: "Time for one gait cycle", correct: false },
+    ],
+    6: [
+      { text: "Gait velocity", correct: true },
+      { text: "Cadence", correct: false },
+      { text: "Stride frequency", correct: false },
+      { text: "Step rate", correct: false },
+    ],
+    7: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    8: [
+      { text: "Gluteus medius", correct: true },
+      { text: "Gluteus maximus", correct: false },
+      { text: "Iliopsoas", correct: false },
+      { text: "Quadriceps", correct: false },
+    ],
+    9: [
+      { text: "Stance", correct: true },
+      { text: "Swing", correct: false },
+      { text: "Double support", correct: false },
+      { text: "Terminal", correct: false },
+    ],
+    10: [
+      { text: "Heel", correct: true },
+      { text: "Toe", correct: false },
+      { text: "Mid", correct: false },
+      { text: "Foot", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Exercise Physiology ───────────────────────────────────────────────────────
+const seedExercisePhysiologyLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "VO2 max measures:", order: 1 },
+      { lessonId, type: "SELECT", question: "The anaerobic threshold is the exercise intensity at which:", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the energy system that provides ATP without oxygen.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "Heart rate decreases linearly as exercise intensity increases.", order: 4 },
+      { lessonId, type: "SELECT", question: "EPOC refers to:", order: 5 },
+      { lessonId, type: "ASSIST", question: "What does RPE stand for in exercise testing?", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "Slow-twitch fibres are more fatigue-resistant than fast-twitch fibres.", order: 7 },
+      { lessonId, type: "SELECT", question: "The primary fuel source during low-intensity prolonged exercise is:", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The maximum oxygen uptake during exercise is called ___.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "Lactic acid accumulates above the ___ threshold.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Maximum oxygen consumption during exercise", correct: true },
+      { text: "Resting oxygen consumption", correct: false },
+      { text: "Carbon dioxide produced during exercise", correct: false },
+      { text: "Heart rate at maximum effort", correct: false },
+    ],
+    2: [
+      { text: "Lactate accumulates faster than it can be cleared", correct: true },
+      { text: "Oxygen consumption peaks", correct: false },
+      { text: "Heart rate plateaus", correct: false },
+      { text: "Muscles switch to aerobic metabolism only", correct: false },
+    ],
+    3: [
+      { text: "Anaerobic glycolysis", correct: true },
+      { text: "Oxidative phosphorylation", correct: false },
+      { text: "Beta oxidation", correct: false },
+      { text: "Krebs cycle", correct: false },
+    ],
+    4: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    5: [
+      { text: "Excess post-exercise oxygen consumption", correct: true },
+      { text: "Exercise-induced peripheral occlusion", correct: false },
+      { text: "Expected peak oxygen capacity", correct: false },
+      { text: "Elevated post-exercise cortisol", correct: false },
+    ],
+    6: [
+      { text: "Rating of Perceived Exertion", correct: true },
+      { text: "Respiratory Performance Evaluation", correct: false },
+      { text: "Rate of Physical Effort", correct: false },
+      { text: "Relative Physiological Exhaustion", correct: false },
+    ],
+    7: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    8: [
+      { text: "Fat (free fatty acids)", correct: true },
+      { text: "Glycogen", correct: false },
+      { text: "Protein", correct: false },
+      { text: "Glucose", correct: false },
+    ],
+    9: [
+      { text: "VO2 max", correct: true },
+      { text: "EPOC", correct: false },
+      { text: "Lactate threshold", correct: false },
+      { text: "Aerobic capacity", correct: false },
+    ],
+    10: [
+      { text: "Anaerobic", correct: true },
+      { text: "Aerobic", correct: false },
+      { text: "Ventilatory", correct: false },
+      { text: "Lactate", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Rehabilitation Principles ─────────────────────────────────────────────────
+const seedRehabPrinciplesLesson = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "RICE stands for:", order: 1 },
+      { lessonId, type: "SELECT", question: "The inflammatory phase of tissue healing typically lasts:", order: 2 },
+      { lessonId, type: "ASSIST", question: "Name the principle that states rehabilitation exercises should mimic functional demands.", order: 3 },
+      { lessonId, type: "TRUE_FALSE", question: "Pain during rehabilitation always indicates tissue damage.", order: 4 },
+      { lessonId, type: "SELECT", question: "Proprioception training primarily improves:", order: 5 },
+      { lessonId, type: "ASSIST", question: "What does progressive overload mean in rehabilitation?", order: 6 },
+      { lessonId, type: "TRUE_FALSE", question: "Scar tissue has the same tensile strength as original tissue.", order: 7 },
+      { lessonId, type: "SELECT", question: "The remodelling phase of healing is characterised by:", order: 8 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ phase of healing involves collagen deposition.", order: 9 },
+      { lessonId, type: "FILL_BLANK", question: "Functional rehabilitation aims to restore ___ movement patterns.", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Rest, Ice, Compression, Elevation", correct: true },
+      { text: "Resistance, Intensity, Cardio, Exercise", correct: false },
+      { text: "Rest, Immobilise, Cool, Elevate", correct: false },
+      { text: "Range, Ice, Compression, Endurance", correct: false },
+    ],
+    2: [
+      { text: "0–5 days", correct: true },
+      { text: "2–4 weeks", correct: false },
+      { text: "6–12 weeks", correct: false },
+      { text: "Up to 1 year", correct: false },
+    ],
+    3: [
+      { text: "Specificity of training", correct: true },
+      { text: "Progressive overload", correct: false },
+      { text: "SAID principle", correct: false },
+      { text: "Periodisation", correct: false },
+    ],
+    4: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    5: [
+      { text: "Joint position sense and balance", correct: true },
+      { text: "Muscle hypertrophy", correct: false },
+      { text: "Cardiovascular endurance", correct: false },
+      { text: "Flexibility", correct: false },
+    ],
+    6: [
+      { text: "Gradually increasing exercise demands over time", correct: true },
+      { text: "Starting at maximal load immediately", correct: false },
+      { text: "Reducing rest periods each week", correct: false },
+      { text: "Alternating muscle groups each session", correct: false },
+    ],
+    7: [
+      { text: "True", correct: false },
+      { text: "False", correct: true },
+    ],
+    8: [
+      { text: "Collagen fibre realignment along stress lines", correct: true },
+      { text: "Acute inflammation and swelling", correct: false },
+      { text: "Angiogenesis and granulation tissue", correct: false },
+      { text: "Immediate haemostasis", correct: false },
+    ],
+    9: [
+      { text: "Proliferative", correct: true },
+      { text: "Inflammatory", correct: false },
+      { text: "Remodelling", correct: false },
+      { text: "Haemostasis", correct: false },
+    ],
+    10: [
+      { text: "Functional", correct: true },
+      { text: "Isolated", correct: false },
+      { text: "Passive", correct: false },
+      { text: "Static", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
+// ── Unit 2 Recap ─────────────────────────────────────────────────────────────
+const seedKinUnit2Recap = async (lessonId: number) => {
+  const challenges = await db
+    .insert(schema.challenges)
+    .values([
+      { lessonId, type: "SELECT", question: "Torque is calculated as force multiplied by the:", order: 1 },
+      { lessonId, type: "TRUE_FALSE", question: "Stance phase accounts for 60% of the gait cycle.", order: 2 },
+      { lessonId, type: "SELECT", question: "VO2 max measures:", order: 3 },
+      { lessonId, type: "FILL_BLANK", question: "The ___ phase of tissue healing involves collagen remodelling.", order: 4 },
+      { lessonId, type: "SELECT", question: "Trendelenburg gait results from weakness of:", order: 5 },
+      { lessonId, type: "TRUE_FALSE", question: "A third-class lever has the effort between the fulcrum and load.", order: 6 },
+      { lessonId, type: "SELECT", question: "The primary fuel during prolonged low-intensity exercise is:", order: 7 },
+      { lessonId, type: "FILL_BLANK", question: "RICE stands for Rest, Ice, ___, Elevation.", order: 8 },
+      { lessonId, type: "SELECT", question: "Cadence refers to:", order: 9 },
+      { lessonId, type: "ASSIST", question: "What is the anaerobic threshold?", order: 10 },
+    ])
+    .returning();
+
+  const opts: Record<number, { text: string; correct: boolean }[]> = {
+    1: [
+      { text: "Moment arm", correct: true },
+      { text: "Velocity", correct: false },
+      { text: "Mass", correct: false },
+      { text: "Acceleration", correct: false },
+    ],
+    2: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    3: [
+      { text: "Maximum oxygen consumption during exercise", correct: true },
+      { text: "Resting heart rate", correct: false },
+      { text: "Carbon dioxide output", correct: false },
+      { text: "Blood lactate at rest", correct: false },
+    ],
+    4: [
+      { text: "Remodelling", correct: true },
+      { text: "Inflammatory", correct: false },
+      { text: "Proliferative", correct: false },
+      { text: "Haemostasis", correct: false },
+    ],
+    5: [
+      { text: "Gluteus medius", correct: true },
+      { text: "Gluteus maximus", correct: false },
+      { text: "Quadriceps", correct: false },
+      { text: "Iliopsoas", correct: false },
+    ],
+    6: [
+      { text: "True", correct: true },
+      { text: "False", correct: false },
+    ],
+    7: [
+      { text: "Fat", correct: true },
+      { text: "Carbohydrate", correct: false },
+      { text: "Protein", correct: false },
+      { text: "Glycogen only", correct: false },
+    ],
+    8: [
+      { text: "Compression", correct: true },
+      { text: "Circulation", correct: false },
+      { text: "Cardio", correct: false },
+      { text: "Cold", correct: false },
+    ],
+    9: [
+      { text: "Number of steps per minute", correct: true },
+      { text: "Distance per minute", correct: false },
+      { text: "Stride length", correct: false },
+      { text: "Speed of walking", correct: false },
+    ],
+    10: [
+      { text: "The intensity at which lactate accumulates faster than it can be cleared", correct: true },
+      { text: "The point of maximum heart rate", correct: false },
+      { text: "When muscles switch entirely to fat burning", correct: false },
+      { text: "The maximum sustainable exercise intensity", correct: false },
+    ],
+  };
+
+  for (const c of challenges) {
+    await db.insert(schema.challengeOptions).values(opts[c.order].map((o) => ({ challengeId: c.id, ...o })));
+  }
+};
+
 void main();
+

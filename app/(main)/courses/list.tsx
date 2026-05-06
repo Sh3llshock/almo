@@ -3,8 +3,6 @@
 import { useTransition } from "react";
 
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
 import { upsertUserProgress } from "@/actions/user-progress";
 import { courses, userProgress } from "@/db/schema";
 
@@ -25,7 +23,7 @@ export const List = ({ courses, activeCourseId }: ListProps) => {
     if (id === activeCourseId) return router.push("/learn");
 
     startTransition(() => {
-      upsertUserProgress(id).catch(() => toast.error("Something went wrong."));
+      upsertUserProgress(id).catch(() => {});
     });
   };
 

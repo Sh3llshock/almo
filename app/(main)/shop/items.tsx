@@ -3,8 +3,6 @@
 import { useTransition } from "react";
 
 import Image from "next/image";
-import { toast } from "sonner";
-
 import { purchaseStreakFreeze } from "@/actions/streak";
 import { Button } from "@/components/ui/button";
 import { MAX_STREAK_FREEZES, STREAK_FREEZE_COST } from "@/constants";
@@ -25,7 +23,7 @@ export const Items = ({ streakFreezes, points }: ItemsProps) => {
     if (pending || atMax || !canAfford) return;
 
     startTransition(() => {
-      purchaseStreakFreeze().catch(() => toast.error("Something went wrong."));
+      purchaseStreakFreeze().catch(() => {});
     });
   };
 

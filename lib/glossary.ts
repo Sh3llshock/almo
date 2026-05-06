@@ -262,7 +262,130 @@ const unit2Glossary: GlossaryEntry[] = [
   },
 ];
 
-export const glossary: GlossaryEntry[] = [...unit1Glossary, ...unit2Glossary];
+// Kinesiology Unit 1 — Muscles & Contraction
+const kinUnit1Glossary: GlossaryEntry[] = [
+  {
+    term: "sarcomere",
+    definition: "The basic contractile unit of a muscle fibre, bounded by two Z-lines. It contains overlapping thick (myosin) and thin (actin) filaments that slide past each other during contraction.",
+    sectionId: "muscle-contraction",
+  },
+  {
+    term: "motor unit",
+    definition: "A single motor neuron and all the muscle fibres it innervates. Smaller motor units (fewer fibres) are recruited first; larger units are added as force demand increases (size principle).",
+    sectionId: "muscle-contraction",
+  },
+  {
+    term: "troponin",
+    definition: "A regulatory protein on the thin (actin) filament. When calcium binds to its troponin-C subunit, it shifts tropomyosin to expose the myosin-binding sites on actin, triggering contraction.",
+    sectionId: "muscle-contraction",
+  },
+  {
+    term: "concentric contraction",
+    definition: "A muscle contraction in which the muscle shortens as it generates force — the origin and insertion move closer together. Example: the upward phase of a bicep curl.",
+    sectionId: "muscle-contraction",
+  },
+  {
+    term: "eccentric contraction",
+    definition: "A muscle contraction in which the muscle lengthens under load. Produces greater force than concentric contraction and causes more delayed-onset muscle soreness (DOMS). Example: lowering phase of a bicep curl.",
+    sectionId: "muscle-contraction",
+  },
+  {
+    term: "rotator cuff",
+    definition: "Four muscles (SITS: Supraspinatus, Infraspinatus, Teres minor, Subscapularis) that stabilise the humeral head in the glenoid fossa and control shoulder rotation.",
+    sectionId: "upper-body-muscles",
+  },
+  {
+    term: "latissimus dorsi",
+    definition: "The broadest muscle of the back, connecting the humerus to the thoracolumbar fascia and iliac crest. It extends, adducts, and internally rotates the shoulder — the primary muscle used in pull-ups.",
+    sectionId: "upper-body-muscles",
+  },
+  {
+    term: "gluteus medius",
+    definition: "The primary hip abductor, running from the ilium to the greater trochanter of the femur. It stabilises the pelvis during single-leg stance; weakness produces the Trendelenburg sign.",
+    sectionId: "lower-body-muscles",
+  },
+  {
+    term: "hamstrings",
+    definition: "Three posterior thigh muscles (biceps femoris, semitendinosus, semimembranosus) that flex the knee and extend the hip. They are biarticular — they cross both the hip and knee joints.",
+    sectionId: "lower-body-muscles",
+  },
+  {
+    term: "iliopsoas",
+    definition: "The primary hip flexor formed by the iliacus and psoas major muscles. They converge on the lesser trochanter of the femur and are the most powerful hip flexors.",
+    sectionId: "lower-body-muscles",
+  },
+  {
+    term: "transversus abdominis",
+    definition: "The deepest abdominal muscle, with horizontal fibres that compress the abdominal cavity and increase intra-abdominal pressure. It is the key muscle for spinal stability and is often targeted in core rehabilitation.",
+    sectionId: "core-muscles",
+  },
+  {
+    term: "linea alba",
+    definition: "The white fibrous midline of the abdominal wall, formed by the interlacing aponeuroses of the three flat abdominal muscles. Diastasis recti is a separation of the rectus abdominis at this line.",
+    sectionId: "core-muscles",
+  },
+];
+
+// Kinesiology Unit 2 — Movement Science
+const kinUnit2Glossary: GlossaryEntry[] = [
+  {
+    term: "torque",
+    definition: "The rotational effect of a force about an axis, calculated as: Torque = Force × Moment arm. Also called a moment of force. In the body, muscles generate torque to rotate joints.",
+    sectionId: "forces-levers",
+  },
+  {
+    term: "ground reaction force",
+    definition: "The force exerted by the ground on the body in response to the force the body exerts on the ground (Newton's 3rd law). During walking it equals body weight; during running it can reach 2–3× body weight.",
+    sectionId: "forces-levers",
+  },
+  {
+    term: "Trendelenburg sign",
+    definition: "A positive clinical sign where the pelvis drops toward the non-stance leg during single-leg standing, indicating weakness of the hip abductors (primarily gluteus medius) on the stance side.",
+    sectionId: "gait",
+  },
+  {
+    term: "cadence",
+    definition: "The number of steps taken per unit time, typically measured in steps per minute. Normal adult walking cadence is approximately 100–120 steps/min.",
+    sectionId: "gait",
+  },
+  {
+    term: "double support",
+    definition: "The phase of the gait cycle when both feet are simultaneously in contact with the ground. It occurs twice per cycle (approximately 20% total). Double support is absent during running.",
+    sectionId: "gait",
+  },
+  {
+    term: "VO2 max",
+    definition: "The maximum rate of oxygen consumption during maximal exercise, expressed in mL O₂/kg/min. It is the gold standard measure of cardiorespiratory fitness and is limited primarily by cardiac output.",
+    sectionId: "exercise-physiology",
+  },
+  {
+    term: "anaerobic threshold",
+    definition: "The exercise intensity at which lactate production exceeds lactate clearance, causing accumulation in the blood. Also called the lactate threshold. Training above this point improves buffering capacity.",
+    sectionId: "exercise-physiology",
+  },
+  {
+    term: "EPOC",
+    definition: "Excess Post-exercise Oxygen Consumption — the elevated oxygen uptake following exercise used to restore homeostasis (replenish phosphocreatine, clear lactate, lower body temperature, restore hormones).",
+    sectionId: "exercise-physiology",
+  },
+  {
+    term: "proprioception",
+    definition: "The body's ability to sense its position, movement, and force in space without visual input. Mediated by mechanoreceptors in muscles (muscle spindles), tendons (Golgi tendon organs), and joint capsules.",
+    sectionId: "rehab-principles",
+  },
+  {
+    term: "progressive overload",
+    definition: "The principle that training stimuli must be gradually and systematically increased over time to continue driving physiological adaptation. Overload can be achieved by increasing load, volume, frequency, or reducing rest.",
+    sectionId: "rehab-principles",
+  },
+];
+
+export const glossary: GlossaryEntry[] = [
+  ...unit1Glossary,
+  ...unit2Glossary,
+  ...kinUnit1Glossary,
+  ...kinUnit2Glossary,
+];
 
 // Pre-sorted longest-first for greedy matching
 export const sortedGlossary = [...glossary].sort(

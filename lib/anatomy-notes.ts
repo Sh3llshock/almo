@@ -558,4 +558,427 @@ export const anatomyNotes: UnitNotes[] = [
       },
     ],
   },
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // KINESIOLOGY
+  // ══════════════════════════════════════════════════════════════════════════
+  {
+    unitTitle: "Unit 1: Muscles & Contraction",
+    intro:
+      "Kinesiology is the science of human movement. This unit covers the major muscles of the upper body, lower body, and core, along with the physiology of how muscles contract to produce force and movement.",
+    sections: [
+      {
+        id: "upper-body-muscles",
+        title: "1.1 Upper Body Muscles",
+        blocks: [
+          {
+            t: "p",
+            text: "The upper body muscles move the shoulder, elbow, and wrist. They are grouped into shoulder muscles (deltoid, rotator cuff), chest (pectoralis major), back (latissimus dorsi, trapezius, rhomboids), and arm muscles (biceps brachii, triceps brachii).",
+          },
+          { t: "h3", text: "Shoulder & Rotator Cuff" },
+          {
+            t: "ul",
+            items: [
+              "Deltoid — three parts (anterior, middle, posterior). Primary shoulder abductor (middle). Anterior flexes and internally rotates; posterior extends and externally rotates.",
+              "Supraspinatus — initiates shoulder abduction (first 15°); most commonly torn rotator cuff muscle.",
+              "Infraspinatus — externally rotates the humerus; stabilises the humeral head posteriorly.",
+              "Teres minor — externally rotates and adducts; part of the rotator cuff.",
+              "Subscapularis — internal rotation of the humerus; the only anterior rotator cuff muscle.",
+            ],
+          },
+          {
+            t: "key",
+            text: "Rotator cuff mnemonic — SITS: Supraspinatus, Infraspinatus, Teres minor, Subscapularis. All four compress the humeral head into the glenoid for stability.",
+          },
+          { t: "h3", text: "Chest & Back" },
+          {
+            t: "ul",
+            items: [
+              "Pectoralis major — large fan-shaped muscle. Primary actions: horizontal adduction, flexion, and internal rotation of the shoulder.",
+              "Latissimus dorsi — the broadest back muscle; extends, adducts, and internally rotates the shoulder. Used in pull-ups and rowing.",
+              "Trapezius — upper fibres elevate the scapula; middle fibres retract; lower fibres depress. Essential for scapular control during arm elevation.",
+              "Rhomboids (major & minor) — retract and downwardly rotate the scapula.",
+              "Serratus anterior — protracts the scapula; holds it against the thorax. Weakness causes winging of the scapula.",
+            ],
+          },
+          { t: "h3", text: "Arm Muscles" },
+          {
+            t: "ul",
+            items: [
+              "Biceps brachii — flexes the elbow and supinates the forearm; has two heads (long and short).",
+              "Brachialis — pure elbow flexor; acts regardless of forearm position.",
+              "Triceps brachii — sole elbow extensor; three heads (long, medial, lateral).",
+              "Coracobrachialis — weak shoulder flexor and adductor.",
+            ],
+          },
+          {
+            t: "table",
+            headers: ["Muscle", "Action", "Nerve"],
+            rows: [
+              ["Deltoid", "Shoulder abduction", "Axillary"],
+              ["Pectoralis major", "Horizontal adduction / flexion", "Medial & lateral pectoral"],
+              ["Latissimus dorsi", "Extension / adduction", "Thoracodorsal"],
+              ["Biceps brachii", "Elbow flexion / supination", "Musculocutaneous"],
+              ["Triceps brachii", "Elbow extension", "Radial"],
+            ],
+          },
+        ],
+      },
+      {
+        id: "lower-body-muscles",
+        title: "1.2 Lower Body Muscles",
+        blocks: [
+          {
+            t: "p",
+            text: "The lower body muscles are the largest and most powerful in the body. They drive locomotion, maintain posture, and absorb the impact of daily activities. Key groups include the quadriceps, hamstrings, gluteals, hip adductors, and calf muscles.",
+          },
+          { t: "h3", text: "Quadriceps Femoris" },
+          {
+            t: "ul",
+            items: [
+              "Rectus femoris — only quadriceps head that crosses the hip; flexes the hip and extends the knee.",
+              "Vastus lateralis — largest quadriceps head; extends the knee.",
+              "Vastus medialis — extends the knee; the VMO (oblique fibres) is critical for patellar tracking.",
+              "Vastus intermedius — deep muscle; extends the knee.",
+            ],
+          },
+          { t: "h3", text: "Hamstrings" },
+          {
+            t: "ul",
+            items: [
+              "Biceps femoris (long & short head) — flexes the knee; long head also extends the hip.",
+              "Semitendinosus — knee flexion and medial tibial rotation; hip extension.",
+              "Semimembranosus — knee flexion and medial tibial rotation; hip extension.",
+            ],
+          },
+          {
+            t: "key",
+            text: "Hamstring strains are the most common muscle injury in sprinting sports — they often occur during the late swing phase when the muscle is both active and lengthening (eccentric contraction).",
+          },
+          { t: "h3", text: "Gluteal Muscles" },
+          {
+            t: "ul",
+            items: [
+              "Gluteus maximus — the largest muscle in the body; primary hip extensor and external rotator. Key for stair climbing, rising from a chair, and running.",
+              "Gluteus medius — abducts and internally rotates the hip; critical for pelvis stabilisation during single-leg stance. Weakness causes Trendelenburg gait.",
+              "Gluteus minimus — assists gluteus medius in abduction and internal rotation.",
+            ],
+          },
+          { t: "h3", text: "Calf & Ankle Muscles" },
+          {
+            t: "ul",
+            items: [
+              "Gastrocnemius — crosses both the knee and ankle; plantarflexes the ankle and assists knee flexion. Forms the visible bulk of the calf.",
+              "Soleus — single-joint muscle; purely plantarflexes the ankle. Does not cross the knee.",
+              "Tibialis anterior — dorsiflexes the ankle and inverts the foot. Active during heel strike.",
+              "Peroneus (fibularis) longus & brevis — evert the foot; active in lateral ankle stability.",
+            ],
+          },
+          {
+            t: "table",
+            headers: ["Muscle", "Primary Action", "Nerve"],
+            rows: [
+              ["Quadriceps femoris", "Knee extension", "Femoral"],
+              ["Hamstrings", "Knee flexion / hip extension", "Sciatic"],
+              ["Gluteus maximus", "Hip extension", "Inferior gluteal"],
+              ["Gluteus medius", "Hip abduction", "Superior gluteal"],
+              ["Gastrocnemius", "Plantarflexion", "Tibial"],
+              ["Tibialis anterior", "Dorsiflexion", "Deep peroneal"],
+            ],
+          },
+        ],
+      },
+      {
+        id: "core-muscles",
+        title: "1.3 Core Muscles",
+        blocks: [
+          {
+            t: "p",
+            text: "The core is not just the 'six-pack' — it is a cylinder of muscles that includes the abdominal wall, back extensors, diaphragm (roof), and pelvic floor (floor). Together they create intra-abdominal pressure to stabilise the lumbar spine.",
+          },
+          { t: "h3", text: "Anterior Abdominal Wall (superficial to deep)" },
+          {
+            t: "ol",
+            items: [
+              "External oblique — most superficial; fibres run inferomedially. Flexes trunk, contralateral rotation.",
+              "Internal oblique — fibres run superomedially (at right angles to external oblique). Flexes trunk, ipsilateral rotation.",
+              "Transversus abdominis (TVA) — deepest; fibres run horizontally. Does not move the trunk — it compresses the abdomen and increases intra-abdominal pressure for spinal stability.",
+              "Rectus abdominis — vertical muscle between the xiphoid process and pubic symphysis. Flexes the trunk; creates the 'six-pack' appearance. Enclosed in the rectus sheath.",
+            ],
+          },
+          {
+            t: "key",
+            text: "The linea alba is the fibrous midline raphe connecting left and right abdominal muscles. Diastasis recti (separation of rectus abdominis) occurs here, commonly seen post-pregnancy.",
+          },
+          { t: "h3", text: "Posterior Core (Spinal Extensors)" },
+          {
+            t: "ul",
+            items: [
+              "Erector spinae — a group of three muscles (iliocostalis, longissimus, spinalis) running the full length of the spine. Primary trunk extensors.",
+              "Multifidus — deep muscle that spans 2–4 vertebral levels. Critical for segmental spinal stabilisation. Often atrophies after low back pain.",
+              "Quadratus lumborum (QL) — connects the iliac crest to the 12th rib and lumbar transverse processes. Laterally flexes the trunk and 'hikes' the hip; also assists forced expiration.",
+            ],
+          },
+          { t: "h3", text: "Diaphragm & Pelvic Floor" },
+          {
+            t: "ul",
+            items: [
+              "Diaphragm — the dome-shaped breathing muscle. During inhalation it descends, increasing thoracic volume. It also plays a role in increasing intra-abdominal pressure for core stability.",
+              "Pelvic floor — a hammock of muscles (levator ani group + coccygeus) that supports the pelvic organs. Coordinated with the TVA and diaphragm for core stabilisation.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "muscle-contraction",
+        title: "1.4 Muscle Contraction",
+        blocks: [
+          {
+            t: "p",
+            text: "Skeletal muscle contraction is driven by electrical signals from motor neurons and the release of calcium within the muscle fibre. Understanding the mechanism helps explain how training adaptations, fatigue, and muscle injuries occur.",
+          },
+          { t: "h3", text: "The Sarcomere — Functional Unit of Muscle" },
+          {
+            t: "ul",
+            items: [
+              "A sarcomere is the basic contractile unit, bounded by Z-lines.",
+              "Thick filaments = myosin; thin filaments = actin (with troponin and tropomyosin).",
+              "The sliding filament theory: myosin heads bind actin and 'walk' along it, pulling the Z-lines closer together — the sarcomere shortens.",
+              "Titin is a giant elastic protein that acts as a molecular spring, preventing overstretching.",
+            ],
+          },
+          { t: "h3", text: "Excitation-Contraction Coupling" },
+          {
+            t: "ol",
+            items: [
+              "Motor neuron fires an action potential → releases acetylcholine at the neuromuscular junction.",
+              "Acetylcholine depolarises the muscle membrane (sarcolemma).",
+              "Signal travels down the T-tubules into the SR (sarcoplasmic reticulum).",
+              "SR releases Ca²⁺ into the cytoplasm.",
+              "Ca²⁺ binds to troponin → shifts tropomyosin → exposes actin binding sites.",
+              "Myosin heads bind actin → power stroke → filaments slide → sarcomere shortens.",
+              "ATP is required to detach myosin from actin (rigor mortis occurs when ATP is absent).",
+            ],
+          },
+          {
+            t: "key",
+            text: "All-or-none principle: each individual motor unit either fires fully or not at all. Force is graded by recruiting more motor units (motor unit recruitment) or increasing firing rate (rate coding).",
+          },
+          { t: "h3", text: "Types of Muscle Contraction" },
+          {
+            t: "table",
+            headers: ["Type", "Muscle Length", "Example"],
+            rows: [
+              ["Concentric", "Shortens", "Bicep curl upward phase"],
+              ["Eccentric", "Lengthens under load", "Bicep curl lowering phase"],
+              ["Isometric", "No change", "Holding a weight still"],
+            ],
+          },
+          { t: "h3", text: "Muscle Fibre Types" },
+          {
+            t: "table",
+            headers: ["Type", "Speed", "Fatigue resistance", "Example use"],
+            rows: [
+              ["Type I (slow-twitch)", "Slow", "High", "Marathon running, posture"],
+              ["Type IIa (fast oxidative)", "Fast", "Moderate", "Middle-distance events"],
+              ["Type IIb (fast glycolytic)", "Very fast", "Low", "Sprinting, power lifting"],
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    unitTitle: "Unit 2: Movement Science",
+    intro:
+      "Movement science integrates biomechanics, exercise physiology, and rehabilitation to understand how the body moves efficiently and recovers from injury. This unit covers forces, levers, gait, energy systems, and the principles of tissue healing.",
+    sections: [
+      {
+        id: "forces-levers",
+        title: "2.1 Forces & Levers",
+        blocks: [
+          {
+            t: "p",
+            text: "Biomechanics applies the principles of mechanics to biological systems. Understanding forces, torque, and levers allows clinicians to analyse movement efficiency and design safer rehabilitation exercises.",
+          },
+          { t: "h3", text: "Forces" },
+          {
+            t: "ul",
+            items: [
+              "Compressive force — acts perpendicular to a joint surface, pressing surfaces together. Dominant in weight-bearing joints (knee, hip).",
+              "Shear force — acts parallel to a joint surface, causing surfaces to slide. High shear at the knee anterior cruciate ligament.",
+              "Tensile force — pulling force that elongates a structure. Acts along tendons and ligaments.",
+              "Ground reaction force (GRF) — the equal and opposite force exerted by the ground on the body during contact (Newton's 3rd law).",
+            ],
+          },
+          { t: "h3", text: "Torque" },
+          {
+            t: "p",
+            text: "Torque (moment of force) = Force × Moment arm. The moment arm is the perpendicular distance from the axis of rotation to the line of force. Maximising the moment arm maximises torque for a given force.",
+          },
+          { t: "h3", text: "Classes of Levers" },
+          {
+            t: "table",
+            headers: ["Class", "Arrangement", "Example in body"],
+            rows: [
+              ["First class", "Fulcrum between effort and load", "Head nodding (atlas/axis)"],
+              ["Second class", "Load between fulcrum and effort", "Rising on tip-toes (ankle)"],
+              ["Third class", "Effort between fulcrum and load", "Elbow curl (biceps)"],
+            ],
+          },
+          {
+            t: "key",
+            text: "Most muscles in the body act as third-class levers — effort (muscle attachment) is between the fulcrum (joint) and load (hand/foot). This favours speed and range of motion over mechanical advantage.",
+          },
+          { t: "h3", text: "Centre of Mass & Stability" },
+          {
+            t: "ul",
+            items: [
+              "Centre of mass (CoM) — the point at which body weight is equally distributed. In the anatomical position it lies approximately anterior to S2.",
+              "Base of support (BoS) — the area enclosed by the contact points with the ground.",
+              "Stability increases when CoM is low, BoS is wide, and CoM projects within the BoS.",
+            ],
+          },
+        ],
+      },
+      {
+        id: "gait",
+        title: "2.2 Gait Analysis",
+        blocks: [
+          {
+            t: "p",
+            text: "Gait is the pattern of limb movements used during walking or running. Normal walking gait is highly efficient; deviations may indicate pain, weakness, or neurological dysfunction. The gait cycle begins and ends with heel strike of the same foot.",
+          },
+          { t: "h3", text: "The Gait Cycle" },
+          {
+            t: "ul",
+            items: [
+              "Stance phase (~60%) — foot is in contact with the ground. Begins at heel strike (initial contact), progresses through mid-stance and terminal stance, ends at toe-off.",
+              "Swing phase (~40%) — foot is in the air. Limb advances forward from toe-off to the next heel strike.",
+              "Double support — both feet on the ground simultaneously (~20% of cycle; occurs twice per cycle). Absent in running.",
+            ],
+          },
+          { t: "h3", text: "Key Gait Terminology" },
+          {
+            t: "table",
+            headers: ["Term", "Definition"],
+            rows: [
+              ["Step length", "Distance from one heel strike to the contralateral heel strike"],
+              ["Stride length", "Distance from one heel strike to the next same-foot heel strike (~1.5 m)"],
+              ["Cadence", "Number of steps per minute (~100–120 steps/min)"],
+              ["Gait velocity", "Speed of walking = stride length × cadence / 2"],
+            ],
+          },
+          { t: "h3", text: "Common Gait Deviations" },
+          {
+            t: "ul",
+            items: [
+              "Trendelenburg gait — pelvis drops to the non-stance side during single-leg support due to weak ipsilateral gluteus medius.",
+              "Antalgic gait — shortened stance phase on the painful limb to reduce loading.",
+              "Foot drop (steppage gait) — inability to dorsiflex the foot (tibialis anterior weakness / common peroneal nerve injury); patient lifts the knee high to clear the foot.",
+              "Scissors gait — thighs cross midline during swing; seen in spastic cerebral palsy (adductor spasticity).",
+            ],
+          },
+          {
+            t: "key",
+            text: "The single most clinically useful gait measure is gait speed — it predicts falls risk, hospitalisation, and mortality in older adults. Normal community walking speed is ≥1.0 m/s.",
+          },
+        ],
+      },
+      {
+        id: "exercise-physiology",
+        title: "2.3 Exercise Physiology",
+        blocks: [
+          {
+            t: "p",
+            text: "Exercise physiology studies the acute responses and chronic adaptations of the body to physical activity. Understanding energy systems, cardiovascular responses, and training principles is essential for designing effective rehabilitation programmes.",
+          },
+          { t: "h3", text: "Energy Systems" },
+          {
+            t: "table",
+            headers: ["System", "Fuel", "Duration", "O₂ required?"],
+            rows: [
+              ["ATP-PCr (phosphagen)", "Creatine phosphate", "0–10 seconds", "No"],
+              ["Anaerobic glycolysis", "Glycogen → lactate", "10 s – 2 min", "No"],
+              ["Oxidative (aerobic)", "Glycogen + fat", ">2 minutes", "Yes"],
+            ],
+          },
+          { t: "h3", text: "Key Measures" },
+          {
+            t: "ul",
+            items: [
+              "VO2 max — maximum rate of oxygen consumption during exercise. The gold standard of aerobic fitness (mL/kg/min). Limited by cardiac output in most individuals.",
+              "Anaerobic (lactate) threshold — the exercise intensity at which blood lactate accumulates faster than it can be cleared. Training above this threshold improves tolerance.",
+              "EPOC (excess post-exercise oxygen consumption) — elevated oxygen consumption after exercise to restore homeostasis (replenish PCr, clear lactate, cool body, etc.).",
+              "RPE (Rating of Perceived Exertion) — Borg scale 6–20; a subjective effort measure that correlates well with heart rate and oxygen consumption.",
+            ],
+          },
+          { t: "h3", text: "Cardiovascular Response to Exercise" },
+          {
+            t: "ul",
+            items: [
+              "Heart rate rises linearly with exercise intensity — maximal HR ≈ 220 − age (beats/min).",
+              "Stroke volume increases with exercise intensity up to about 40–50% of VO2 max, then plateaus.",
+              "Cardiac output = heart rate × stroke volume. Increases from ~5 L/min at rest to ~20–25 L/min during maximal exercise.",
+              "Blood is redistributed to working muscles via vasodilation of arterioles; splanchnic flow decreases.",
+            ],
+          },
+          {
+            t: "key",
+            text: "Slow-twitch (Type I) fibres are recruited first at low intensities; as intensity rises, Type IIa then Type IIb fibres are recruited. This orderly recruitment follows the size principle (Henneman's size principle).",
+          },
+        ],
+      },
+      {
+        id: "rehab-principles",
+        title: "2.4 Rehabilitation Principles",
+        blocks: [
+          {
+            t: "p",
+            text: "Rehabilitation restores function after injury through structured progressive loading. An understanding of tissue healing phases, training principles, and functional progressions is essential for every physiotherapist.",
+          },
+          { t: "h3", text: "Phases of Tissue Healing" },
+          {
+            t: "table",
+            headers: ["Phase", "Timeframe", "Key events"],
+            rows: [
+              ["Haemostasis", "0–hours", "Vasoconstriction, platelet plug, clot formation"],
+              ["Inflammatory", "0–5 days", "Vasodilation, neutrophils → macrophages, pain & swelling"],
+              ["Proliferative", "3 days – 6 weeks", "Fibroblasts lay down collagen (initially Type III), angiogenesis"],
+              ["Remodelling", "6 weeks – 2 years", "Type III → Type I collagen, fibre realignment along stress lines"],
+            ],
+          },
+          {
+            t: "key",
+            text: "Scar tissue (Type I collagen) reaches ~80% of original tensile strength at 6 months. It never fully equals original tissue — hence the risk of re-injury is always elevated.",
+          },
+          { t: "h3", text: "Core Rehabilitation Principles" },
+          {
+            t: "ul",
+            items: [
+              "RICE (acute phase) — Rest, Ice, Compression, Elevation. Reduces swelling and pain in the first 24–72 hours. Modern evidence also supports PEACE & LOVE (Protect, Elevate, Avoid anti-inflammatories, Compress, Educate + Load, Optimise, Vascularise, Exercise).",
+              "Progressive overload — systematically increase exercise demands (load, volume, frequency) to drive adaptation without exceeding tissue tolerance.",
+              "Specificity (SAID principle) — Specific Adaptation to Imposed Demands. Rehabilitation exercises must replicate the functional demands of the patient's activities.",
+              "Proprioception training — retrains joint position sense (JPS) and neuromuscular control lost after injury. Critical in ankle and ACL rehab.",
+            ],
+          },
+          { t: "h3", text: "Rehabilitation Progression" },
+          {
+            t: "ol",
+            items: [
+              "Reduce pain and swelling (acute management).",
+              "Restore range of motion (passive → active-assisted → active).",
+              "Rebuild strength (isometric → isotonic → functional).",
+              "Improve proprioception and neuromuscular control.",
+              "Sport/function-specific training and return to activity.",
+            ],
+          },
+          {
+            t: "p",
+            text: "Pain during rehabilitation must be carefully monitored. A useful guideline: exercise-induced pain should not exceed 4/10 on a VAS, should not persist more than 24 hours after the session, and the patient should not 'guard' or compensate during the exercise.",
+          },
+        ],
+      },
+    ],
+  },
 ];

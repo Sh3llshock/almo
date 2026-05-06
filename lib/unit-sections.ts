@@ -17,6 +17,18 @@ const sectionsByUnit: Record<string, string[]> = {
     "hip",
     "knee-ankle",
   ],
+  "Unit 1: Muscles & Contraction": [
+    "upper-body-muscles",
+    "lower-body-muscles",
+    "core-muscles",
+    "muscle-contraction",
+  ],
+  "Unit 2: Movement Science": [
+    "forces-levers",
+    "gait",
+    "exercise-physiology",
+    "rehab-principles",
+  ],
 };
 
 export const getSectionId = (

@@ -52,12 +52,12 @@ const SectionPage = async ({ params }: SectionPageProps) => {
       <NotesView unitTitle={unit.title} sectionId={sectionId} sectionOnly />
 
       {lesson && (
-        <div className="fixed bottom-[80px] right-4 z-20 lg:bottom-6 lg:right-6">
-          <Link href={`/lesson/${lesson.id}`}>
+        <div className="fixed bottom-0 left-0 right-0 z-20 border-t bg-white px-4 py-3 pb-[max(12px,env(safe-area-inset-bottom))]">
+          <Link href={`/lesson/${lesson.id}`} className="block">
             <Button
               size="lg"
               variant="secondary"
-              className="border-2 border-b-4 shadow-lg active:border-b-2"
+              className="w-full border-2 border-b-4 shadow-lg active:border-b-2"
             >
               I learned it — test my knowledge
               <ArrowRight className="ml-2 h-5 w-5" />
