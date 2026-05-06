@@ -98,6 +98,7 @@ duolingo-clone/
   |- public/
   |- scripts/
     |-- migrate-daily-quests.ts
+    |-- migrate-question-types.ts
     |-- migrate-streak.ts
     |-- prod.ts
   |- store/
