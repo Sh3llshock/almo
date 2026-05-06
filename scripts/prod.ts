@@ -465,6 +465,30 @@ const seedCranialLesson = async (lessonId: number) => {
         question: "Which bone houses the inner ear structures?",
         order: 8,
       },
+      {
+        lessonId,
+        type: "TRUE_FALSE",
+        question: "The frontal bone forms the forehead.",
+        order: 9,
+      },
+      {
+        lessonId,
+        type: "TRUE_FALSE",
+        question: "The mandible is a fixed bone that cannot move.",
+        order: 10,
+      },
+      {
+        lessonId,
+        type: "FILL_BLANK",
+        question: "The ___ bone contains the foramen magnum.",
+        order: 11,
+      },
+      {
+        lessonId,
+        type: "FILL_BLANK",
+        question: "The ___ is the only moveable bone of the skull.",
+        order: 12,
+      },
     ])
     .returning();
 
@@ -508,6 +532,26 @@ const seedCranialLesson = async (lessonId: number) => {
       { correct: true, text: "Temporal bone" },
       { correct: false, text: "Parietal bone" },
       { correct: false, text: "Sphenoid bone" },
+    ],
+    9: [
+      { correct: true, text: "True" },
+      { correct: false, text: "False" },
+    ],
+    10: [
+      { correct: false, text: "True" },
+      { correct: true, text: "False" },
+    ],
+    11: [
+      { correct: true, text: "Occipital" },
+      { correct: false, text: "Frontal" },
+      { correct: false, text: "Parietal" },
+      { correct: false, text: "Temporal" },
+    ],
+    12: [
+      { correct: true, text: "Mandible" },
+      { correct: false, text: "Maxilla" },
+      { correct: false, text: "Zygomatic" },
+      { correct: false, text: "Temporal" },
     ],
   };
 
@@ -571,6 +615,30 @@ const seedSpineLesson = async (lessonId: number) => {
         question: "The intervertebral disc is composed mainly of which tissue?",
         order: 8,
       },
+      {
+        lessonId,
+        type: "TRUE_FALSE",
+        question: "The cervical spine has 7 vertebrae.",
+        order: 9,
+      },
+      {
+        lessonId,
+        type: "TRUE_FALSE",
+        question: "The thoracic region of the spine has 5 vertebrae.",
+        order: 10,
+      },
+      {
+        lessonId,
+        type: "FILL_BLANK",
+        question: "The ___ (C1) allows nodding movements at the head.",
+        order: 11,
+      },
+      {
+        lessonId,
+        type: "FILL_BLANK",
+        question: "The lumbar spine consists of ___ vertebrae.",
+        order: 12,
+      },
     ])
     .returning();
 
@@ -614,6 +682,26 @@ const seedSpineLesson = async (lessonId: number) => {
       { correct: true, text: "Fibrocartilage (annulus fibrosus & nucleus pulposus)" },
       { correct: false, text: "Hyaline cartilage" },
       { correct: false, text: "Compact bone" },
+    ],
+    9: [
+      { correct: true, text: "True" },
+      { correct: false, text: "False" },
+    ],
+    10: [
+      { correct: false, text: "True" },
+      { correct: true, text: "False" },
+    ],
+    11: [
+      { correct: true, text: "Atlas" },
+      { correct: false, text: "Axis" },
+      { correct: false, text: "C3" },
+      { correct: false, text: "Sacrum" },
+    ],
+    12: [
+      { correct: true, text: "5" },
+      { correct: false, text: "7" },
+      { correct: false, text: "12" },
+      { correct: false, text: "4" },
     ],
   };
 

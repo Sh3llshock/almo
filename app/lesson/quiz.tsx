@@ -17,6 +17,7 @@ import { NotesView } from "@/components/notes-view";
 import { Button } from "@/components/ui/button";
 import { usePracticeModal } from "@/store/use-practice-modal";
 import { useStreakModal } from "@/store/use-streak-modal";
+import { cn } from "@/lib/utils";
 
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
@@ -44,6 +45,45 @@ type QuizProps = {
 type NotesOverlay = { sectionId: string; highlightTerm: string };
 type Phase = "main" | "recap-intro" | "recap";
 
+const FillBlankDisplay = ({
+  question,
+  selectedText,
+  status,
+}: {
+  question: string;
+  selectedText?: string;
+  status: "none" | "correct" | "wrong";
+}) => {
+  const parts = question.split("___");
+  const before = parts[0] ?? "";
+  const after = parts[1] ?? "";
+
+  return (
+    <div className="text-center lg:text-start">
+      <p className="text-lg font-bold leading-relaxed text-neutral-700 lg:text-2xl">
+        {before}
+        <span
+          className={cn(
+            "inline-block min-w-[100px] border-b-2 px-2 text-center",
+            !selectedText && "border-slate-400 text-slate-300",
+            selectedText && status === "none" && "border-sky-400 text-sky-500",
+            selectedText && status === "correct" && "border-green-500 text-green-500",
+            selectedText && status === "wrong" && "border-rose-500 text-rose-500"
+          )}
+        >
+          {selectedText ?? ""}
+        </span>
+        {after}
+      </p>
+      {!selectedText && (
+        <p className="mt-2 text-sm font-normal text-slate-400">
+          Tap the missing word
+        </p>
+      )}
+    </div>
+  );
+};
+
 export const Quiz = ({
   initialPercentage,
   initialStreak,
@@ -59,7 +99,6 @@ export const Quiz = ({
   const { width, height } = useWindowSize();
   const router = useRouter();
   const { open: openPracticeModal } = usePracticeModal();
-  const { open: openStreakModal } = useStreakModal();
 
   useMount(() => {
     if (initialPercentage === 100) openPracticeModal();
@@ -67,7 +106,7 @@ export const Quiz = ({
 
   const [lessonId] = useState(initialLessonId);
   const [streak, setStreak] = useState(initialStreak);
-  const [streakModalShown, setStreakModalShown] = useState(false);
+  const [pendingStreakValue, setPendingStreakValue] = useState<number | undefined>();
   const [percentage, setPercentage] = useState(() =>
     initialPercentage === 100 ? 0 : initialPercentage
   );
@@ -104,9 +143,22 @@ export const Quiz = ({
         : 0
       : percentage;
 
+  // Question counter
+  const questionIndex =
+    phase === "recap"
+      ? recapTotalCount - recapQueue.length + 1
+      : activeIndex + 1;
+  const totalQuestions =
+    phase === "recap" ? recapTotalCount : challenges.length;
+
   const correctAnswerText =
     status === "wrong" && correctOptionId
       ? options.find((o) => o.id === correctOptionId)?.text
+      : undefined;
+
+  const selectedOptionText =
+    selectedOption !== undefined
+      ? options.find((o) => o.id === selectedOption)?.text
       : undefined;
 
   const onSelect = (id: number) => {
@@ -175,7 +227,6 @@ export const Quiz = ({
     if (!correctOption) return;
 
     if (correctOption.id === selectedOption) {
-      // Instant UI feedback — server sync happens in background
       void correctControls.play();
       setStatus("correct");
       if (phase !== "recap") {
@@ -183,10 +234,9 @@ export const Quiz = ({
       }
       upsertChallengeProgress(challenge.id)
         .then((response) => {
-          if (response?.streakIncremented && !streakModalShown) {
+          if (response?.streakIncremented) {
             setStreak(response.newStreak);
-            setStreakModalShown(true);
-            openStreakModal(response.newStreak);
+            setPendingStreakValue(response.newStreak);
           }
         })
         .catch(() => toast.error("Something went wrong. Please try again."));
@@ -253,14 +303,24 @@ export const Quiz = ({
         <Footer
           lessonId={lessonId}
           status="completed"
-          onCheck={() => router.push("/learn")}
+          onCheck={() =>
+            router.push(
+              pendingStreakValue
+                ? `/learn?newStreak=${pendingStreakValue}`
+                : "/learn"
+            )
+          }
         />
       </>
     );
   }
 
   const title =
-    challenge.type === "ASSIST" ? "Select the correct meaning" : challenge.question;
+    challenge.type === "ASSIST"
+      ? "Select the correct meaning"
+      : challenge.type === "FILL_BLANK"
+        ? "Fill in the missing word"
+        : challenge.question;
 
   // ── Quiz screen ──────────────────────────────────────────────────────────
   return (
@@ -291,7 +351,11 @@ export const Quiz = ({
         </div>
       )}
 
-      <Header percentage={displayPercentage} />
+      <Header
+        percentage={displayPercentage}
+        questionIndex={questionIndex}
+        totalQuestions={totalQuestions}
+      />
 
       <div className="flex-1">
         <div className="flex h-full items-center justify-center">
@@ -302,9 +366,17 @@ export const Quiz = ({
               </div>
             )}
 
-            <h1 className="text-center text-lg font-bold text-neutral-700 lg:text-start lg:text-3xl">
-              {parseGlossary(title, handleShowInNotes)}
-            </h1>
+            {challenge.type === "FILL_BLANK" ? (
+              <FillBlankDisplay
+                question={challenge.question}
+                selectedText={selectedOptionText}
+                status={status}
+              />
+            ) : (
+              <h1 className="text-center text-lg font-bold text-neutral-700 lg:text-start lg:text-3xl">
+                {parseGlossary(title, handleShowInNotes)}
+              </h1>
+            )}
 
             <div>
               {challenge.type === "ASSIST" && (

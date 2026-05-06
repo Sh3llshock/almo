@@ -116,13 +116,16 @@ export const upsertChallengeProgress = async (
     })
     .where(eq(userProgress.userId, userId));
 
-  const streakResult = await updateStreakOnActivity();
-
   revalidatePath("/learn");
   revalidatePath("/lesson");
   revalidatePath("/quests");
   revalidatePath("/leaderboard");
   revalidatePath(`/lesson/${lessonId}`);
 
-  return streakResult;
+  if (lessonNowComplete) {
+    const streakResult = await updateStreakOnActivity();
+    return streakResult;
+  }
+
+  return { streakIncremented: false, newStreak: currentUserProgress.streak };
 };

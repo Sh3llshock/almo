@@ -5,9 +5,11 @@ import { useExitModal } from "@/store/use-exit-modal";
 
 type HeaderProps = {
   percentage: number;
+  questionIndex?: number;
+  totalQuestions?: number;
 };
 
-export const Header = ({ percentage }: HeaderProps) => {
+export const Header = ({ percentage, questionIndex, totalQuestions }: HeaderProps) => {
   const { open } = useExitModal();
 
   return (
@@ -17,6 +19,11 @@ export const Header = ({ percentage }: HeaderProps) => {
         className="cursor-pointer text-slate-500 transition hover:opacity-75"
       />
       <Progress value={percentage} />
+      {questionIndex !== undefined && totalQuestions !== undefined && (
+        <p className="min-w-[48px] text-right text-sm font-bold text-slate-500">
+          {questionIndex}/{totalQuestions}
+        </p>
+      )}
     </header>
   );
 };

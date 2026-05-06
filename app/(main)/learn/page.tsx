@@ -13,9 +13,15 @@ import {
 } from "@/db/queries";
 
 import { Header } from "./header";
+import { StreakNotifier } from "./streak-notifier";
 import { Unit } from "./unit";
 
-const LearnPage = async () => {
+const LearnPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ newStreak?: string }>;
+}) => {
+  const { newStreak } = await searchParams;
   const userProgressData = getUserProgress();
   const courseProgressData = getCourseProgress();
   const lessonPercentageData = getLessonPercentage();
@@ -41,8 +47,11 @@ const LearnPage = async () => {
 
   const isPro = !!userSubscription?.isActive;
 
+  const newStreakNum = newStreak ? parseInt(newStreak) : undefined;
+
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
+      {newStreakNum && <StreakNotifier streak={newStreakNum} />}
       <StickyWrapper>
         <UserProgress
           activeCourse={userProgress.activeCourse}
